@@ -1,0 +1,73 @@
+
+Hola Carlos,
+Como parte de las actividades de capacitación y considerando el próximo proyecto que desarrollaremos, durante esta semana revisaremos algunos temas enfocados en el consumo de servicios y presentación de información dentro de Angular.
+Temas a investigar y practicar
+
+1. HttpClient
+Objetivo: Consumir información desde una API REST.
+Revisar:
+
+    Configuración de HttpClient.
+    Peticiones GET.
+    Envío de parámetros.
+    Manejo básico de respuestas.
+    Manejo básico de errores.
+
+2. Interfaces en TypeScript
+Objetivo: Definir correctamente la estructura de los datos obtenidos desde una API.
+Revisar:
+
+    Creación de interfaces.
+    Tipado de propiedades.
+    Objetos anidados.
+    Arreglos dentro de interfaces.
+    Propiedades opcionales.
+
+3. Servicios e Inyección de Dependencias
+Objetivo: Separar la lógica de consumo de servicios de la capa de presentación.
+Revisar:
+
+    Creación de servicios.
+    Decorador @Injectable.
+    Inyección de dependencias mediante constructor.
+    Uso de servicios dentro de componentes.
+
+4. Routing y obtención de parámetros desde la URL
+Objetivo: Recuperar información desde la URL para realizar consultas dinámicas.
+Revisar:
+
+    Configuración básica de rutas.
+    Route Params.
+    Query Params.
+    ActivatedRoute.
+
+5. Observables (nivel básico)
+Objetivo: Comprender cómo Angular maneja las respuestas de las APIs.
+Revisar únicamente:
+
+    Qué es un Observable.
+    Método subscribe().
+    Flujo básico de una petición HTTP.
+
+Por el momento no es necesario profundizar en operadores avanzados de RxJS.
+6. Manejo de estados básicos de la pantalla
+Objetivo: Mejorar la experiencia del usuario durante las consultas.
+Implementar:
+
+    Estado de carga (loading).
+    Estado exitoso.
+    Estado de error.
+
+En esta parte es poder tener la funcionalidad de un loading en la pantalla, poder mostrarlo al inicio de una petición y ocultarlo al momento de obtener una respuesta, incluso poder mostrar un mensaje de error si se requiere.
+
+Objetivo final de la práctica
+Construir una página sencilla con el siguiente flujo:
+
+    Obtener un identificador desde la URL.
+    Consumir una API utilizando dicho identificador. (puedes simular la respuesta con el operador RXJS of() )
+    Mapear la respuesta mediante interfaces.
+    Mostrar la información en pantalla.
+    Manejar estados de carga y error.
+
+        Este ejercicio será la base para el proyecto que estaremos desarrollando próximamente.
+Cualquier duda o comentario estoy al pendiente, muchas gracias, excelente fin de semana 😄
