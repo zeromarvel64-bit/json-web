@@ -1,0 +1,47 @@
+<div class="page-wrapper">
+
+  <!-- Estado: Cargando -->
+  <div *ngIf="loading" class="state-card loading-card">
+    <div class="spinner"></div>
+    <p>Cargando información...</p>
+  </div>
+
+  <!-- Estado: Error -->
+  <div *ngIf="error && !loading" class="state-card error-card">
+    <div class="state-icon">&#10060;</div>
+    <h2>Ocurrió un error</h2>
+    <p>{{ error }}</p>
+    <button class="btn-retry" (click)="loadData(currentId!)">Reintentar</button>
+  </div>
+
+  <!-- Estado: Éxito — muestra el payload -->
+  <div *ngIf="payload && !loading" class="state-card payload-card" [ngClass]="statusClass">
+
+    <div class="payload-header">
+      <span class="badge-type">{{ payload.type | uppercase }}</span>
+      <span class="badge-status" [ngClass]="statusClass">{{ payload.status }}</span>
+    </div>
+
+    <h1 class="payload-message">{{ payload.message }}</h1>
+
+    <div class="payload-meta">
+      <span *ngIf="payload.id"><strong>ID:</strong> {{ payload.id }}</span>
+      <span *ngIf="payload.timestamp"><strong>Fecha:</strong> {{ payload.timestamp | date:'medium' }}</span>
+    </div>
+
+    <!-- Datos adicionales del JSON -->
+    <div *ngIf="dataEntries.length > 0" class="payload-data">
+      <h3>Detalle</h3>
+      <table>
+        <tbody>
+          <tr *ngFor="let entry of dataEntries">
+            <td class="data-key">{{ entry.key }}</td>
+            <td class="data-value">{{ entry.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
