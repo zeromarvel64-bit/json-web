@@ -1,6 +1,8 @@
 
 https://azappqa.t-conecta.app/service/api/v1/v/ticket/1?ri=699901310070
 
+me puedes apoyar generando 2 imágenes de propuesta de como se vería el nuevo ticket porfis, así como Julio le hizo cuando nos pidió la página web, que nos dio 2 imágenes y basadas en esa se hizo la pagina web, sería 1 imagen de como se vería modo web y una modo mobile (esto en web se le nombra responsivo, que una página se pueda ver bien en diferentes tamaños de pantalla
+
 Hola Carlos,
 Como parte de las actividades de capacitación y considerando el próximo proyecto que desarrollaremos, durante esta semana revisaremos algunos temas enfocados en el consumo de servicios y presentación de información dentro de Angular.
 Temas a investigar y practicar
