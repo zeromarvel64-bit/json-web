@@ -1,4 +1,6 @@
 
+https://azappqa.t-conecta.app/service/api/v1/v/ticket/1?ri=699901310070
+
 Hola Carlos,
 Como parte de las actividades de capacitación y considerando el próximo proyecto que desarrollaremos, durante esta semana revisaremos algunos temas enfocados en el consumo de servicios y presentación de información dentro de Angular.
 Temas a investigar y practicar
