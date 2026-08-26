@@ -221,22 +221,16 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: #EEF2FA;
   color: var(--brand-blue);
-  border: 1px solid #C9D4EC;
-  border-radius: 8px;
   font-weight: 600;
   font-size: 13px;
   letter-spacing: .06em;
-  padding: 9px 12px;
   margin-bottom: 20px;
   text-transform: uppercase;
 }
 
 .a-badge.badge-cancel {
-  background: var(--red-soft);
   color: var(--brand-red);
-  border-color: #F5C6CB;
 }
 
 .a-rows {
@@ -313,12 +307,11 @@
   width: 100%;
   max-width: 430px;
   display: flex;
-  gap: 12px;
   margin-top: 26px;
 }
 
 .a-actions .btn {
-  flex: 1;
+  width: 100%;
 }
 
 /* ============================================================
