@@ -1,0 +1,121 @@
+<div class="ticket-page" [class.design-b-bg]="design === 'b' && ticket && !loading">
+
+  <!-- Selector de propuesta (solo para comparar; quitar cuando se elija una) -->
+  <div class="design-switch">
+    <button [class.active]="design === 'a'" (click)="setDesign('a')">Propuesta A</button>
+    <button [class.active]="design === 'b'" (click)="setDesign('b')">Propuesta B</button>
+  </div>
+
+  <!-- Estado: Cargando -->
+  <div *ngIf="loading" class="state-card loading-card">
+    <div class="spinner"></div>
+    <p>Cargando ticket...</p>
+  </div>
+
+  <!-- Estado: Error -->
+  <div *ngIf="error && !loading" class="state-card error-card">
+    <div class="state-icon">&#10060;</div>
+    <h2>Ocurrió un error</h2>
+    <p>{{ error }}</p>
+    <button class="btn-retry" (click)="loadTicket(currentId!)">Reintentar</button>
+  </div>
+
+  <!-- ============ PROPUESTA A: Ticket digital clásico ============ -->
+  <ng-container *ngIf="ticket && !loading && design === 'a'">
+    <div class="a-wrap">
+      <div class="a-ticket">
+        <div class="a-inner">
+          <div class="a-brand">
+            <img src="assets/t-conecta-logo.svg" alt="T-Conecta" class="a-logo">
+            <div class="a-wordmark">T-CONEC<span>T</span>A</div>
+          </div>
+
+          <div class="a-store">
+            <h1>{{ ticket.merchant.name }}</h1>
+            <p>
+              {{ ticket.merchant.address }}<span *ngIf="ticket.merchant.zipCode"> · {{ ticket.merchant.country }} {{ ticket.merchant.zipCode }}</span><br>
+              {{ ticket.merchant.city }}
+            </p>
+          </div>
+
+          <div class="a-badge" [class.badge-cancel]="isCancellation">
+            <span *ngIf="isCancellation">&#10005;&nbsp;</span>{{ operationLabel }}
+          </div>
+
+          <div class="a-rows">
+            <div class="a-row"><span class="k">Comercio</span><span class="v">{{ ticket.commerceId }}</span></div>
+            <div class="a-row"><span class="k">Transacción</span><span class="v">{{ ticket.transactionId }}</span></div>
+            <div class="a-row"><span class="k">Fecha y hora</span><span class="v">{{ ticket.dateTime }}</span></div>
+            <div class="a-row"><span class="k">Lote</span><span class="v">{{ ticket.batch || '—' }}</span></div>
+            <div class="a-row"><span class="k">RRN</span><span class="v">{{ ticket.rrn }}</span></div>
+            <div class="a-row"><span class="k">Aplicación</span><span class="v">{{ ticket.appCode }} · {{ ticket.entryMode }}</span></div>
+          </div>
+
+          <div class="a-total">
+            <span class="k">TOTAL</span>
+            <span class="v" [class.negative]="isNegative">$ {{ ticket.total | number:'1.2-2' }}<small>{{ ticket.currency }}</small></span>
+          </div>
+
+          <div class="a-foot">
+            <p>{{ signatureLabel }}.<br>Conserve este comprobante para cualquier aclaración.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="a-actions">
+        <button class="btn btn-primary">&#8681;&nbsp; Descargar PDF</button>
+        <button class="btn btn-ghost">&#8599;&nbsp; Compartir</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ============ PROPUESTA B: Estilo app de confirmación ============ -->
+  <ng-container *ngIf="ticket && !loading && design === 'b'">
+    <div class="b-hero">
+      <div class="b-brand">
+        <img src="assets/t-conecta-logo-blanco.svg" alt="T-Conecta" class="b-logo">
+        <span class="b-wordmark">T-CONEC<b>T</b>A</span>
+      </div>
+      <div class="b-status-icon" [class.icon-cancel]="isCancellation">
+        <span *ngIf="isCancellation">&#10005;</span>
+        <span *ngIf="!isCancellation">&#10003;</span>
+      </div>
+      <h1>{{ operationLabel }}</h1>
+      <div class="b-amount" [class.negative]="isNegative">$ {{ ticket.total | number:'1.2-2' }}<small>{{ ticket.currency }}</small></div>
+      <div class="b-when">{{ ticket.dateTime }}</div>
+    </div>
+
+    <div class="b-sheet">
+      <div class="b-card">
+        <h2>Detalle de la transacción</h2>
+        <div class="b-grid">
+          <div class="b-item"><div class="k">Comercio</div><div class="v">{{ ticket.commerceId }}</div></div>
+          <div class="b-item"><div class="k">Transacción</div><div class="v">{{ ticket.transactionId }}</div></div>
+          <div class="b-item"><div class="k">RRN</div><div class="v">{{ ticket.rrn }}</div></div>
+          <div class="b-item"><div class="k">Lote</div><div class="v">{{ ticket.batch || '—' }}</div></div>
+          <div class="b-item"><div class="k">Aplicación</div><div class="v">{{ ticket.appCode }} · {{ ticket.entryMode }}</div></div>
+          <div class="b-item"><div class="k">Método</div><div class="v">{{ entryModeLabel }}</div></div>
+        </div>
+      </div>
+
+      <div class="b-side">
+        <div class="b-card">
+          <h2>Comercio</h2>
+          <div class="b-merchant-name">{{ ticket.merchant.name }}</div>
+          <p class="b-merchant-address">
+            {{ ticket.merchant.address }}<span *ngIf="ticket.merchant.zipCode"> · {{ ticket.merchant.country }} {{ ticket.merchant.zipCode }}</span><br>
+            {{ ticket.merchant.city }}
+          </p>
+          <div class="b-chip">&#9888;&nbsp; {{ signatureLabel }}</div>
+        </div>
+
+        <div class="b-card b-actions">
+          <button class="btn btn-primary">&#8681;&nbsp; Descargar PDF</button>
+          <button class="btn btn-ghost">&#8599;&nbsp; Compartir ticket</button>
+          <p class="b-note">Conserva este comprobante para cualquier aclaración.</p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</div>

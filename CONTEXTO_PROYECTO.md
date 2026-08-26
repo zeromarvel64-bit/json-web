@@ -26,14 +26,14 @@ json-web/
 └── json-viewer/                  ← proyecto Angular
     └── src/app/
         ├── interfaces/
-        │   └── json-payload.ts           ← tipado del JSON recibido
+        │   ├── json-payload.ts           ← tipado del JSON recibido
+        │   └── ticket-payload.ts         ← tipado del JSON del ticket
         ├── services/
-        │   └── json-data.service.ts      ← lógica de consumo HTTP
+        │   ├── json-data.service.ts      ← lógica de consumo HTTP
+        │   └── ticket-data.service.ts    ← consumo del ticket (mock + API)
         ├── pages/
-        │   └── json-view/                ← página principal
-        │       ├── json-view.component.ts
-        │       ├── json-view.component.html
-        │       └── json-view.component.css
+        │   ├── json-view/                ← página genérica JSON
+        │   └── ticket-view/              ← ticket web (propuestas A y B)
         ├── app-routing.module.ts         ← rutas
         ├── app.module.ts                 ← módulo raíz
         └── app.component.html            ← solo <router-outlet>
@@ -44,7 +44,9 @@ json-web/
 ## Rutas configuradas
 | Ruta           | Componente        | Descripción                          |
 |----------------|-------------------|--------------------------------------|
-| `/view/:id`    | JsonViewComponent | Página principal — recibe ID por URL |
+| `/view/:id`    | JsonViewComponent | Página genérica — recibe ID por URL  |
+| `/ticket/:id`  | TicketViewComponent | Ticket web T-Conecta. Query param `?design=a\|b` cambia entre las 2 propuestas |
+| `/ticket`      | → redirect        | Redirige a `/ticket/demo`            |
 | `/`            | → redirect        | Redirige a `/view/demo`              |
 | `/**`          | → redirect        | Cualquier ruta inválida a `/view/demo` |
 
@@ -123,3 +125,4 @@ ng generate service services/nombre-servicio
 | Fecha       | Descripción                                           |
 |-------------|-------------------------------------------------------|
 | 2026-08-25  | Proyecto Angular base creado, estructura inicial lista |
+| 2026-08-26  | Ticket web T-Conecta: 2 propuestas de diseño (A: recibo clásico, B: estilo app) en `/ticket/:id`, responsivo, mock con datos del equipo |

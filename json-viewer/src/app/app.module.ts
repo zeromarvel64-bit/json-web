@@ -5,11 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { JsonViewComponent } from './pages/json-view/json-view.component';
+import { TicketViewComponent } from './pages/ticket-view/ticket-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    JsonViewComponent
+    JsonViewComponent,
+    TicketViewComponent
   ],
   imports: [
     BrowserModule,
