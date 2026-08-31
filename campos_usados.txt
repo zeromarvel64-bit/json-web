@@ -1,0 +1,19 @@
+┌─────────────────────────────────┐
+│         [Logo T-CONECTA]        │  → Asset estático
+│                                 │
+│      CR AUTOVEND IM30 1         │  → transaction.companyName
+│         Reforma 222             │  → transaction.address (línea 1)
+│         Mexico 13020            │  → transaction.address (línea 2)
+│       CIUDAD DE MEXICO          │  → transaction.address (línea 3)
+│                                 │
+│ Comercio:    1014327/1736946315 │  → transaction.merchantName
+│ Transacción:           186546   │  → transaction.folio
+│ Fecha y hora: 25-08-2026 17:46  │  → transaction.date + transaction.time
+│ Lote:                           │  → (vacío — no está en el JSON)
+│ RRN:          699901310070      │  → transaction.reference
+│                                 │
+│ 0024                    ICC     │  → transaction.iccAtc + transaction.paymentType
+│ CANCELACION VENTA               │  → cancellation.operationType + transaction.operationType
+│                                 │
+│ TOTAL:          $ -62.00 MXN    │  → cancellation.amount + (tae/pds).currency
+└─────────────────────────────────┘
