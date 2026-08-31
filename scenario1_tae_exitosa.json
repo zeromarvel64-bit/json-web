@@ -59,17 +59,7 @@
         "flatFee": "3.00",
         "mobileNumber": "5512345678",
         "vendorReference": "VENDOR-TELCEL-001",
-        "authorizationNumber": "AUTH-TAE-654100",
-        "customerId": "CUST-TAE-001",
-        "channelId": "POS_TERMINAL",
-        "extra": "Recarga exitosa",
-        "terminalId": "TERM-001",
-        "providerAuth": "TELCEL-AUTH-78901",
-        "timestamp": "2026-08-27T10:15:30Z",
-        "commission": "5.00",
-        "accountNumber": "5512345678",
-        "bimboAward": true,
-        "bimboAwardMessage": "Has recibido un beneficio Bimbo por tu recarga",
+        "platformFee": null,
         "transactionLabel": "Recarga móvil TELCEL"
       },
       "pds": null

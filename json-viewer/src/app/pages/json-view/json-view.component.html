@@ -6,7 +6,7 @@
     <p>Cargando información...</p>
   </div>
 
-  <!-- Estado: Error -->
+  <!-- Estado: Error de red / servicio -->
   <div *ngIf="error && !loading" class="state-card error-card">
     <div class="state-icon">&#10060;</div>
     <h2>Ocurrió un error</h2>
@@ -14,34 +14,259 @@
     <button class="btn-retry" (click)="loadData(currentId!)">Reintentar</button>
   </div>
 
-  <!-- Estado: Éxito — muestra el payload -->
-  <div *ngIf="payload && !loading" class="state-card payload-card" [ngClass]="statusClass">
+  <!-- Estado: Respuesta recibida -->
+  <ng-container *ngIf="qpayData && !loading">
 
-    <div class="payload-header">
-      <span class="badge-type">{{ payload.type | uppercase }}</span>
-      <span class="badge-status" [ngClass]="statusClass">{{ payload.status }}</span>
+    <!-- Encabezado de respuesta QPay -->
+    <div class="response-header" [class.approved]="isApproved" [class.rejected]="!isApproved">
+      <div class="header-code">
+        <span class="code-badge" [class.code-ok]="isApproved" [class.code-fail]="!isApproved">
+          {{ qpayData.qpay_code }}
+        </span>
+      </div>
+      <div class="header-info">
+        <h2>{{ qpayData.qpay_description }}</h2>
+        <span class="header-id" *ngIf="currentId">ID: {{ currentId }}</span>
+      </div>
+      <div class="header-status">
+        <span class="status-pill" [class.pill-approved]="isApproved" [class.pill-rejected]="!isApproved">
+          {{ isApproved ? 'APROBADA' : 'RECHAZADA' }}
+        </span>
+      </div>
     </div>
 
-    <h1 class="payload-message">{{ payload.message }}</h1>
+    <!-- Grid de secciones -->
+    <div class="sections-grid">
 
-    <div class="payload-meta">
-      <span *ngIf="payload.id"><strong>ID:</strong> {{ payload.id }}</span>
-      <span *ngIf="payload.timestamp"><strong>Fecha:</strong> {{ payload.timestamp | date:'medium' }}</span>
-    </div>
+      <!-- ── TRANSACCIÓN ───────────────────────────────────────────────── -->
+      <div *ngIf="qpayObject?.transaction" class="section-card">
+        <div class="section-title">
+          <span class="section-icon trx-icon">&#8645;</span>
+          <h3>Transacción</h3>
+          <span class="op-badge op-venta">{{ qpayObject!.transaction!.operationType }}</span>
+          <span class="approved-pill" *ngIf="qpayObject!.transaction!.approved">Aprobada</span>
+        </div>
 
-    <!-- Datos adicionales del JSON -->
-    <div *ngIf="dataEntries.length > 0" class="payload-data">
-      <h3>Detalle</h3>
-      <table>
-        <tbody>
-          <tr *ngFor="let entry of dataEntries">
-            <td class="data-key">{{ entry.key }}</td>
-            <td class="data-value">{{ entry.value }}</td>
+        <div class="amount-display">
+          ${{ qpayObject!.transaction!.amount | number:'1.2-2' }}
+          <span class="currency">MXN</span>
+        </div>
+
+        <div class="card-row">
+          <span class="card-type">{{ qpayObject!.transaction!.ccType }}</span>
+          <span class="card-num">•••• {{ qpayObject!.transaction!.ccNumber }}</span>
+        </div>
+
+        <table class="detail-table">
+          <tr>
+            <td>Referencia</td>
+            <td>{{ qpayObject!.transaction!.reference }}</td>
           </tr>
-        </tbody>
-      </table>
-    </div>
+          <tr>
+            <td>Folio</td>
+            <td>{{ qpayObject!.transaction!.folio }}</td>
+          </tr>
+          <tr>
+            <td>Autorización</td>
+            <td>{{ qpayObject!.transaction!.auth }}</td>
+          </tr>
+          <tr>
+            <td>Fecha / Hora</td>
+            <td>{{ qpayObject!.transaction!.date }} &nbsp; {{ qpayObject!.transaction!.time }}</td>
+          </tr>
+          <tr>
+            <td>Empresa</td>
+            <td>{{ qpayObject!.transaction!.companyName }}</td>
+          </tr>
+          <tr>
+            <td>Comercio</td>
+            <td>{{ qpayObject!.transaction!.merchantName }}</td>
+          </tr>
+          <tr>
+            <td>Comisión</td>
+            <td>${{ qpayObject!.transaction!.commision | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td>Dispersión</td>
+            <td>${{ qpayObject!.transaction!.dispersionAmount | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td>Tipo de pago</td>
+            <td>{{ qpayObject!.transaction!.paymentType === 'C' ? 'Crédito' : 'Débito' }}</td>
+          </tr>
+          <tr>
+            <td>Usuario</td>
+            <td>{{ qpayObject!.transaction!.user }}</td>
+          </tr>
+        </table>
+      </div>
 
-  </div>
+      <!-- ── CANCELACIÓN ──────────────────────────────────────────────── -->
+      <div *ngIf="qpayObject?.cancellation" class="section-card">
+        <div class="section-title">
+          <span class="section-icon cancel-icon">&#10005;</span>
+          <h3>Cancelación</h3>
+          <span class="op-badge op-cancel">{{ qpayObject!.cancellation!.operationType }}</span>
+          <span class="approved-pill" *ngIf="qpayObject!.cancellation!.approved">Procesada</span>
+        </div>
+
+        <div class="amount-display negative">
+          ${{ qpayObject!.cancellation!.amount | number:'1.2-2' }}
+          <span class="currency">MXN</span>
+        </div>
+
+        <div class="card-row">
+          <span class="card-type">{{ qpayObject!.cancellation!.ccType }}</span>
+          <span class="card-num">•••• {{ qpayObject!.cancellation!.ccNumber }}</span>
+        </div>
+
+        <table class="detail-table">
+          <tr>
+            <td>Referencia</td>
+            <td>{{ qpayObject!.cancellation!.reference }}</td>
+          </tr>
+          <tr>
+            <td>Folio</td>
+            <td>{{ qpayObject!.cancellation!.folio }}</td>
+          </tr>
+          <tr>
+            <td>Autorización</td>
+            <td>{{ qpayObject!.cancellation!.auth }}</td>
+          </tr>
+          <tr>
+            <td>Fecha / Hora</td>
+            <td>{{ qpayObject!.cancellation!.date }} &nbsp; {{ qpayObject!.cancellation!.time }}</td>
+          </tr>
+          <tr>
+            <td>Empresa</td>
+            <td>{{ qpayObject!.cancellation!.companyName }}</td>
+          </tr>
+          <tr>
+            <td>Comercio</td>
+            <td>{{ qpayObject!.cancellation!.merchantName }}</td>
+          </tr>
+          <tr>
+            <td>Cód. respuesta</td>
+            <td>{{ qpayObject!.cancellation!.responseCode }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- ── TAE ─────────────────────────────────────────────────────── -->
+      <div *ngIf="qpayObject?.tae" class="section-card">
+        <div class="section-title">
+          <span class="section-icon tae-icon">&#128241;</span>
+          <h3>TAE</h3>
+          <span class="op-badge op-tae">Recarga</span>
+        </div>
+
+        <div class="amount-display">
+          ${{ qpayObject!.tae!.amount }}
+          <span class="currency">{{ qpayObject!.tae!.currency }}</span>
+        </div>
+
+        <table class="detail-table">
+          <tr>
+            <td>Núm. celular</td>
+            <td>{{ qpayObject!.tae!.mobileNumber }}</td>
+          </tr>
+          <tr>
+            <td>Ref. proveedor</td>
+            <td>{{ qpayObject!.tae!.vendorReference }}</td>
+          </tr>
+          <tr>
+            <td>Referencia</td>
+            <td>{{ qpayObject!.tae!.reference }}</td>
+          </tr>
+          <tr>
+            <td>ID transacción</td>
+            <td>{{ qpayObject!.tae!.transactionId }}</td>
+          </tr>
+          <tr>
+            <td>Fecha</td>
+            <td>{{ qpayObject!.tae!.dateTime }}</td>
+          </tr>
+          <tr>
+            <td>País</td>
+            <td>{{ qpayObject!.tae!.country }}</td>
+          </tr>
+          <tr *ngIf="qpayObject!.tae!.platformFee !== null">
+            <td>Comisión plataforma</td>
+            <td>${{ qpayObject!.tae!.platformFee }}</td>
+          </tr>
+          <tr>
+            <td>Cuota fija</td>
+            <td>{{ qpayObject!.tae!.flatFee }}</td>
+          </tr>
+        </table>
+
+        <div *ngIf="qpayObject!.tae!.transactionLabel" class="ticket-note">
+          {{ qpayObject!.tae!.transactionLabel }}
+        </div>
+      </div>
+
+      <!-- ── PDS ─────────────────────────────────────────────────────── -->
+      <div *ngIf="qpayObject?.pds" class="section-card">
+        <div class="section-title">
+          <span class="section-icon pds-icon">&#128196;</span>
+          <h3>PDS</h3>
+          <span class="op-badge op-pds">Pago de servicio</span>
+        </div>
+
+        <div class="amount-display">
+          ${{ qpayObject!.pds!.amount | number:'1.2-2' }}
+          <span class="currency">{{ qpayObject!.pds!.currency }}</span>
+        </div>
+
+        <table class="detail-table">
+          <tr>
+            <td>Núm. cuenta</td>
+            <td>{{ qpayObject!.pds!.accountNumber }}</td>
+          </tr>
+          <tr>
+            <td>Ref. proveedor</td>
+            <td class="break-all">{{ qpayObject!.pds!.vendorReference }}</td>
+          </tr>
+          <tr>
+            <td>ID transacción</td>
+            <td>{{ qpayObject!.pds!.transactionId }}</td>
+          </tr>
+          <tr>
+            <td>Fecha</td>
+            <td>{{ qpayObject!.pds!.dateTime }}</td>
+          </tr>
+          <tr>
+            <td>País</td>
+            <td>{{ qpayObject!.pds!.country }}</td>
+          </tr>
+          <tr>
+            <td>Comisión</td>
+            <td>${{ qpayObject!.pds!.commission | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td>Fee</td>
+            <td>${{ qpayObject!.pds!.fee | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td>Cuota plataforma</td>
+            <td>${{ qpayObject!.pds!.platformFee | number:'1.2-2' }}</td>
+          </tr>
+          <tr>
+            <td>Cuota fija</td>
+            <td>${{ qpayObject!.pds!.flatFee | number:'1.2-2' }}</td>
+          </tr>
+        </table>
+
+        <div *ngIf="qpayObject!.pds!.ticketText1" class="ticket-note">
+          {{ qpayObject!.pds!.ticketText1 }}
+        </div>
+        <div *ngIf="qpayObject!.pds!.ticketText2" class="ticket-note secondary">
+          {{ qpayObject!.pds!.ticketText2 }}
+        </div>
+      </div>
+
+    </div><!-- /sections-grid -->
+
+  </ng-container>
 
 </div>

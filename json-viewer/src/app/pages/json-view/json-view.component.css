@@ -1,24 +1,21 @@
+/* ── Layout general ──────────────────────────────────────────────────────── */
 .page-wrapper {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: #f0f2f5;
-  padding: 24px;
+  padding: 28px 20px;
 }
 
-/* Tarjeta base */
+/* ── Estados: Loading / Error ────────────────────────────────────────────── */
 .state-card {
   background: #fff;
   border-radius: 12px;
-  padding: 40px 48px;
-  max-width: 600px;
-  width: 100%;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 48px;
+  max-width: 480px;
+  margin: 80px auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
   text-align: center;
 }
 
-/* --- Loading --- */
 .loading-card p {
   color: #666;
   margin-top: 16px;
@@ -31,31 +28,17 @@
   border: 5px solid #e0e0e0;
   border-top-color: #4f46e5;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: spin .8s linear infinite;
   margin: 0 auto;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* --- Error --- */
-.error-card {
-  border-top: 4px solid #ef4444;
-}
+.error-card  { border-top: 4px solid #ef4444; }
+.error-card h2 { color: #ef4444; margin: 12px 0 8px; }
+.error-card p  { color: #555; }
 
-.error-card h2 {
-  color: #ef4444;
-  margin: 12px 0 8px;
-}
-
-.error-card p {
-  color: #555;
-}
-
-.state-icon {
-  font-size: 40px;
-}
+.state-icon { font-size: 40px; }
 
 .btn-retry {
   margin-top: 20px;
@@ -66,104 +49,175 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  transition: background 0.2s;
+  transition: background .2s;
+}
+.btn-retry:hover { background: #4338ca; }
+
+/* ── Encabezado de respuesta QPay ────────────────────────────────────────── */
+.response-header {
+  max-width: 960px;
+  margin: 0 auto 24px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 28px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-left: 6px solid #94a3b8;
+}
+.response-header.approved { border-left-color: #22c55e; }
+.response-header.rejected { border-left-color: #ef4444; }
+
+.code-badge {
+  font-size: 22px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 8px;
+  letter-spacing: .05em;
+}
+.code-ok   { background: #dcfce7; color: #15803d; }
+.code-fail { background: #fee2e2; color: #dc2626; }
+
+.header-info { flex: 1; }
+.header-info h2 { margin: 0 0 4px; font-size: 20px; color: #1a1a2e; }
+.header-id  { font-size: 12px; color: #888; }
+
+.status-pill {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: .06em;
+}
+.pill-approved { background: #dcfce7; color: #15803d; }
+.pill-rejected { background: #fee2e2; color: #dc2626; }
+
+/* ── Grid de secciones ───────────────────────────────────────────────────── */
+.sections-grid {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 20px;
 }
 
-.btn-retry:hover {
-  background: #4338ca;
+/* ── Tarjeta de sección ──────────────────────────────────────────────────── */
+.section-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px 28px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
 }
 
-/* --- Payload --- */
-.payload-card {
-  text-align: left;
-}
-
-.payload-header {
+.section-title {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.section-title h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a2e;
 }
 
-.badge-type {
-  background: #e0e7ff;
-  color: #4f46e5;
+.section-icon { font-size: 20px; }
+
+/* Badges de tipo de operación */
+.op-badge {
   font-size: 11px;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 3px 10px;
   border-radius: 20px;
-  letter-spacing: 0.05em;
+  letter-spacing: .05em;
+}
+.op-venta  { background: #e0e7ff; color: #4338ca; }
+.op-cancel { background: #fee2e2; color: #dc2626; }
+.op-tae    { background: #fef3c7; color: #b45309; }
+.op-pds    { background: #f0fdf4; color: #15803d; }
+
+.approved-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: #dcfce7;
+  color: #15803d;
 }
 
-.badge-status {
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
-}
-
-.payload-message {
-  font-size: 22px;
-  font-weight: 600;
+/* ── Monto destacado ─────────────────────────────────────────────────────── */
+.amount-display {
+  font-size: 32px;
+  font-weight: 700;
   color: #1a1a2e;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
-
-.payload-meta {
-  display: flex;
-  gap: 24px;
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 24px;
-}
-
-/* --- Tabla de datos --- */
-.payload-data h3 {
+.amount-display.negative { color: #dc2626; }
+.currency {
   font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-weight: 500;
   color: #888;
-  margin-bottom: 12px;
+  margin-left: 4px;
 }
 
-table {
+/* ── Info de tarjeta ─────────────────────────────────────────────────────── */
+.card-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+.card-type { color: #555; }
+.card-num  { color: #888; font-family: monospace; letter-spacing: .08em; }
+
+/* ── Tabla de detalle ────────────────────────────────────────────────────── */
+.detail-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 8px;
 }
-
-tr {
-  border-bottom: 1px solid #f0f0f0;
+.detail-table tr { border-bottom: 1px solid #f3f4f6; }
+.detail-table tr:last-child { border-bottom: none; }
+.detail-table td {
+  padding: 8px 0;
+  font-size: 13px;
+  vertical-align: top;
 }
-
-td {
-  padding: 10px 0;
-  font-size: 14px;
-}
-
-.data-key {
+.detail-table td:first-child {
   color: #888;
-  width: 40%;
+  width: 42%;
   font-weight: 500;
-  text-transform: capitalize;
+  padding-right: 8px;
 }
-
-.data-value {
+.detail-table td:last-child {
   color: #1a1a2e;
   font-weight: 600;
 }
+.break-all { word-break: break-all; }
 
-/* --- Variantes de status --- */
-.status-success { border-top: 4px solid #22c55e; }
-.status-success .badge-status { background: #dcfce7; color: #16a34a; }
+/* ── Nota de ticket ──────────────────────────────────────────────────────── */
+.ticket-note {
+  margin-top: 16px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border-left: 3px solid #94a3b8;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #555;
+  line-height: 1.5;
+}
+.ticket-note.secondary {
+  border-left-color: #cbd5e1;
+  color: #888;
+  margin-top: 8px;
+}
 
-.status-error   { border-top: 4px solid #ef4444; }
-.status-error   .badge-status { background: #fee2e2; color: #dc2626; }
-
-.status-pending { border-top: 4px solid #f59e0b; }
-.status-pending .badge-status { background: #fef3c7; color: #d97706; }
-
-.status-warning { border-top: 4px solid #f97316; }
-.status-warning .badge-status { background: #ffedd5; color: #ea580c; }
-
-.status-default { border-top: 4px solid #94a3b8; }
-.status-default .badge-status { background: #f1f5f9; color: #64748b; }
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .sections-grid { grid-template-columns: 1fr; }
+  .response-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .amount-display { font-size: 26px; }
+}

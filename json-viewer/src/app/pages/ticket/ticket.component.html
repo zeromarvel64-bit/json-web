@@ -1,0 +1,132 @@
+<div class="page-bg">
+  <div class="ticket-container">
+
+    <!-- ── Loading ────────────────────────────────────── -->
+    <div *ngIf="loading" class="loading-wrap">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- ── Error ──────────────────────────────────────── -->
+    <div *ngIf="error && !loading" class="error-wrap">
+      <p>{{ error }}</p>
+    </div>
+
+    <!-- ── Ticket card ────────────────────────────────── -->
+    <div *ngIf="ticket && !loading" class="ticket-card">
+
+      <!-- Header: logo + marca + comercio -->
+      <div class="ticket-head">
+
+        <!-- Logo T-CONECTA (anillos entrelazados) -->
+        <div class="logo-wrap">
+          <svg width="82" height="54" viewBox="0 0 82 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <clipPath id="lh"><rect width="41" height="54"/></clipPath>
+              <clipPath id="rh"><rect x="41" width="41" height="54"/></clipPath>
+            </defs>
+            <!-- Anillo azul porción derecha (detrás del rojo) -->
+            <circle cx="27" cy="27" r="20" stroke="#1b2875" stroke-width="7.5" clip-path="url(#rh)"/>
+            <!-- Anillo rojo completo (encima) -->
+            <circle cx="55" cy="27" r="20" stroke="#c82525" stroke-width="7.5"/>
+            <!-- Anillo azul porción izquierda (delante del rojo) -->
+            <circle cx="27" cy="27" r="20" stroke="#1b2875" stroke-width="7.5" clip-path="url(#lh)"/>
+          </svg>
+        </div>
+
+        <!-- Nombre de marca -->
+        <h1 class="brand-name">
+          <span class="accent">T</span>-CONECT<span class="accent">A</span>
+        </h1>
+
+        <!-- Datos del comercio -->
+        <p class="merchant-name">{{ ticket.merchantName }}</p>
+        <p class="merchant-sub">{{ ticket.merchantAddress }}</p>
+        <p class="merchant-sub">{{ ticket.merchantCity }}</p>
+      </div>
+
+      <!-- Separador -->
+      <div class="divider"></div>
+
+      <!-- Tipo de operación -->
+      <div class="op-type" [ngClass]="ticket.operationClass">
+        <span class="op-icon">{{ opIcon }}</span>
+        {{ ticket.operationType }}
+      </div>
+
+      <!-- Separador -->
+      <div class="divider"></div>
+
+      <!-- Filas de datos -->
+      <div class="ticket-rows">
+
+        <div class="ticket-row">
+          <span class="row-label">Comercio</span>
+          <span class="row-value">{{ ticket.comercio }}</span>
+        </div>
+
+        <div class="ticket-row">
+          <span class="row-label">Transacción</span>
+          <span class="row-value">{{ ticket.transaccion }}</span>
+        </div>
+
+        <div class="ticket-row">
+          <span class="row-label">Fecha y hora</span>
+          <span class="row-value">{{ ticket.fechaHora }}</span>
+        </div>
+
+        <div class="ticket-row">
+          <span class="row-label">Lote</span>
+          <span class="row-value">{{ ticket.lote }}</span>
+        </div>
+
+        <div class="ticket-row">
+          <span class="row-label">RRN</span>
+          <span class="row-value">{{ ticket.rrn }}</span>
+        </div>
+
+        <div class="ticket-row no-border">
+          <span class="row-label">Aplicación</span>
+          <span class="row-value">{{ ticket.aplicacion }}</span>
+        </div>
+
+      </div>
+
+      <!-- Separador -->
+      <div class="divider"></div>
+
+      <!-- Total -->
+      <div class="ticket-total">
+        <span class="total-label">TOTAL</span>
+        <div class="total-amount" [class.negative]="ticket.total < 0">
+          <span class="sym">$</span>
+          <span class="num">{{ totalFormatted }}</span>
+          <span class="curr">{{ ticket.currency }}</span>
+        </div>
+      </div>
+
+      <!-- Separador -->
+      <div class="divider"></div>
+
+      <!-- Pie del ticket -->
+      <div class="ticket-footer">
+        <div class="footer-text">
+          <p>{{ ticket.footerLine1 }}</p>
+          <p>{{ ticket.footerLine2 }}</p>
+        </div>
+        <!-- QR placeholder (patrón ajedrez) -->
+        <div class="qr-box"></div>
+      </div>
+
+    </div>
+    <!-- /ticket-card -->
+
+    <!-- ── Botón descargar ─────────────────────────────── -->
+    <button
+      *ngIf="ticket && !loading"
+      class="btn-download"
+      (click)="downloadPdf()">
+      &#8595;&nbsp; Descargar PDF
+    </button>
+
+  </div>
+</div>

@@ -4,7 +4,7 @@
 Aplicación Angular que consume un JSON desde una API (enviado por el equipo)
 y muestra la información en pantalla de forma dinámica según el tipo y estado del payload.
 
-Ejemplos de casos: pago exitoso, error de pago, notificación, etc.
+Casos contemplados: venta, cancelación, recarga TAE, pago de servicios (PDS).
 
 ---
 
@@ -26,7 +26,7 @@ json-web/
 └── json-viewer/                  ← proyecto Angular
     └── src/app/
         ├── interfaces/
-        │   └── json-payload.ts           ← tipado del JSON recibido
+        │   └── json-payload.ts           ← todas las interfaces tipadas
         ├── services/
         │   └── json-data.service.ts      ← lógica de consumo HTTP
         ├── pages/
@@ -50,45 +50,83 @@ json-web/
 
 ---
 
-## Interfaz `JsonPayload`
+## Interfaces definidas (`json-payload.ts`)
+
+### `QpayResponse` — Raíz del JSON
 ```typescript
 {
-  type: string;                    // 'payment', 'error', 'notification', etc.
-  status: string;                  // 'success', 'error', 'pending', 'warning'
-  id?: string;
-  message?: string;
-  data?: Record<string, any>;      // Datos dinámicos según el tipo
-  timestamp?: string;
+  qpay_response: string;       // "true" | "false"
+  qpay_code: string;           // "000" = aprobada
+  qpay_description: string;
+  qpay_object: QpayObject[];
 }
 ```
+
+### `QpayObject` — Elemento de qpay_object (todas opcionales)
+```typescript
+{
+  transaction?:  Transaction;
+  cancellation?: Cancellation;
+  tae?:          Tae;
+  pds?:          Pds;
+}
+```
+
+### `Transaction` — Venta con tarjeta
+Campos: reference, amount, folio, auth, approved, cancel, reversal, arqc, appId, appidLabel,
+companyName, address, ccType, ccName, ccNumber, ccBin, ccExpMonth, ccExpYear, date, time,
+merchantName, operationType, responseCode, iccCsn, iccAtc, iccArpc, iccIssuerScript,
+businessId, customBusinessId, pinOfflineValidation, user, paymentType, st_qps, cdResponse,
+commision, dispersionAmount, cdcvm, surTax, surTaxAmount.
+
+### `Cancellation` — Cancelación de venta
+Mismos campos que Transaction más: clientVoucher, businessVoucher.
+Sin: commision, dispersionAmount, paymentType, user, st_qps.
+
+### `Tae` — Recarga telefónica (campos aprobados por el equipo)
+Campos: dateTime, country, amount, product, vendorReference, mobileNumber, trxId,
+platformFee, transactionId, reference, transactionLabel, requestId, currency, flatFee.
+
+Campos **excluidos** (análisis equipo 2026-08-31):
+authorizationNumber, customerId, channelId, extra, terminalId, providerAuth,
+timestamp, commission, accountNumber, bimboAward, bimboAwardMessage.
+
+### `Pds` — Pago de servicios (campos aprobados por el equipo)
+Campos: dateTime, country, amount, vendorReference, fee, accountNumber, trxId,
+platformFee, transactionId, ticketText1, ticketText2, requestId, currency, commission, flatFee.
+
+Campos **excluidos** (análisis equipo 2026-08-31):
+surcharge, product, verificationDigit, billReference, accountNumber3, accountNumber2,
+accountNumber1, reference, mobileNumber, transactionLabel.
 
 ---
 
 ## Flujo de la aplicación
-1. El usuario entra a `/view/:id` (el ID puede venir de un link externo o query)
+1. Usuario entra a `/view/:id`
 2. `JsonViewComponent.ngOnInit()` lee el `:id` desde `ActivatedRoute`
-3. Llama a `JsonDataService.getData(id)`
-4. Mientras espera → muestra **estado de carga** (spinner)
-5. Si responde OK → muestra **payload** con tipo, status, mensaje y datos
+3. Llama a `JsonDataService.getData(id)` (simulado con `of()`)
+4. Mientras espera → muestra **spinner de carga**
+5. Si responde OK → muestra encabezado QPay + secciones presentes (transaction / cancellation / tae / pds)
 6. Si falla → muestra **estado de error** con botón de reintento
 
 ---
 
 ## Servicio `JsonDataService`
-- `getData(id)` — **simulado con `of()`** + delay de 1.5s (modo desarrollo)
-- `getDataFromApi(id)` — **llamada HTTP real** a `apiUrl/{id}` (activar cuando el equipo dé el endpoint)
-- Para cambiar de simulado a real: en `json-view.component.ts` línea del subscribe, cambiar `getData` → `getDataFromApi`
+- `getData(id)` — **simulado con `of()`** + delay 1.5s — datos reales de QA
+- `getDataFromApi(id)` — **llamada HTTP real** a `apiUrl/{id}`
+- Para activar la API real: en `json-view.component.ts` cambiar `getData` → `getDataFromApi`
 
 ---
 
-## Estados de pantalla implementados
-| Estado    | Clase CSS         | Color de borde |
-|-----------|-------------------|----------------|
-| success   | `status-success`  | Verde          |
-| error     | `status-error`    | Rojo           |
-| pending   | `status-pending`  | Amarillo       |
-| warning   | `status-warning`  | Naranja        |
-| (default) | `status-default`  | Gris           |
+## Pantalla: secciones mostradas
+Cada sección se muestra condicionalmente según los campos presentes en `qpay_object[0]`:
+
+| Sección       | Badge color  | Se muestra cuando                    |
+|---------------|--------------|--------------------------------------|
+| Transaction   | Indigo       | `qpay_object[0].transaction` existe  |
+| Cancellation  | Rojo         | `qpay_object[0].cancellation` existe |
+| TAE           | Amarillo     | `qpay_object[0].tae` existe          |
+| PDS           | Verde        | `qpay_object[0].pds` existe          |
 
 ---
 
@@ -112,14 +150,14 @@ ng generate service services/nombre-servicio
 
 ## Pendientes / Próximos pasos
 - [ ] Recibir el endpoint real de la API del equipo y configurarlo en `json-data.service.ts`
-- [ ] Definir los tipos exactos del JSON que mandará el equipo (ajustar interfaz `JsonPayload`)
-- [ ] Crear vistas específicas por `type` (ej: vista de pago, vista de error, etc.)
-- [ ] Agregar estilos o un diseño más cercano al que el equipo espera
+- [ ] Confirmar si siempre llegan las 4 secciones o solo algunas según el tipo de transacción
 - [ ] Evaluar si se necesita manejo de Query Params además de Route Params
+- [ ] Ajustar diseño visual al estilo que el equipo espere (colores, logo, etc.)
 
 ---
 
 ## Historial de cambios
-| Fecha       | Descripción                                           |
-|-------------|-------------------------------------------------------|
-| 2026-08-25  | Proyecto Angular base creado, estructura inicial lista |
+| Fecha       | Descripción                                                              |
+|-------------|--------------------------------------------------------------------------|
+| 2026-08-25  | Proyecto Angular base creado, estructura inicial lista                    |
+| 2026-08-31  | Interfaces reescritas con estructura real de QPay (QpayResponse, Transaction, Cancellation, Tae, Pds). Se aplicaron cambios del análisis del equipo: campos TAE y PDS excluidos. Mock data actualizado con datos reales de QA. Template y CSS actualizados para mostrar secciones por tipo. |

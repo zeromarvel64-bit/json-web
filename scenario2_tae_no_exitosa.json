@@ -92,17 +92,7 @@
         "flatFee": "3.00",
         "mobileNumber": "5598765432",
         "vendorReference": "VENDOR-MOVISTAR-002",
-        "authorizationNumber": "",
-        "customerId": "CUST-TAE-002",
-        "channelId": "POS_TERMINAL",
-        "extra": "Recarga no exitosa",
-        "terminalId": "TERM-001",
-        "providerAuth": "",
-        "timestamp": "2026-08-27T11:30:45Z",
-        "commission": "5.00",
-        "accountNumber": "5598765432",
-        "bimboAward": false,
-        "bimboAwardMessage": "",
+        "platformFee": null,
         "transactionLabel": "Recarga móvil MOVISTAR"
       },
       "pds": null

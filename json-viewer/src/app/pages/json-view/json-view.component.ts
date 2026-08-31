@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JsonDataService } from '../../services/json-data.service';
-import { JsonPayload } from '../../interfaces/json-payload';
+import { QpayResponse, QpayObject } from '../../interfaces/json-payload';
 
 @Component({
   selector: 'app-json-view',
@@ -11,7 +11,7 @@ import { JsonPayload } from '../../interfaces/json-payload';
 })
 export class JsonViewComponent implements OnInit {
 
-  payload: JsonPayload | null = null;
+  qpayData: QpayResponse | null = null;
   loading = false;
   error: string | null = null;
   currentId: string | null = null;
@@ -34,34 +34,28 @@ export class JsonViewComponent implements OnInit {
   loadData(id: string): void {
     this.loading = true;
     this.error = null;
-    this.payload = null;
+    this.qpayData = null;
 
     // Cambiar a getDataFromApi(id) cuando el equipo provea el endpoint real
     this.jsonDataService.getData(id).subscribe({
       next: (data) => {
-        this.payload = data;
+        this.qpayData = data;
         this.loading = false;
       },
-      error: (err) => {
+      error: () => {
         this.error = 'No se pudo obtener la información. Intente nuevamente.';
         this.loading = false;
       }
     });
   }
 
-  get statusClass(): string {
-    if (!this.payload) return '';
-    const map: Record<string, string> = {
-      success: 'status-success',
-      error: 'status-error',
-      pending: 'status-pending',
-      warning: 'status-warning'
-    };
-    return map[this.payload.status] ?? 'status-default';
+  /** Primer (y normalmente único) elemento de qpay_object */
+  get qpayObject(): QpayObject | null {
+    return this.qpayData?.qpay_object?.[0] ?? null;
   }
 
-  get dataEntries(): { key: string; value: any }[] {
-    if (!this.payload?.data) return [];
-    return Object.entries(this.payload.data).map(([key, value]) => ({ key, value }));
+  /** Respuesta aprobada si qpay_response es "true" y qpay_code es "000" */
+  get isApproved(): boolean {
+    return this.qpayData?.qpay_response === 'true' && this.qpayData?.qpay_code === '000';
   }
 }

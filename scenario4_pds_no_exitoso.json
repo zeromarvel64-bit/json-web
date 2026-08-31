@@ -82,33 +82,20 @@
       "tae": null,
       "pds": {
         "dateTime": "2026-08-27T16:05:10-06:00",
-        "surcharge": "0.00",
         "country": "MX",
         "amount": "380.00",
-        "product": "PAGO TELMEX",
-        "verificationDigit": "9",
         "vendorReference": "VENDOR-TELMEX-20260827",
-        "billReference": "BILL-TELMEX-554321",
         "trxId": "TRX-20260827160510",
         "transactionId": "TXN-300000002",
         "accountNumber": "5551234567",
-        "accountNumber3": "567",
-        "accountNumber2": "234",
         "requestId": 300000002,
-        "accountNumber1": "555",
-        "message1": "Transacción rechazada",
-        "message2": "No se pudo procesar el pago. Intente nuevamente",
         "currency": "MXN",
         "commission": "8.00",
         "fee": 4.0,
         "flatFee": 2.0,
         "platformFee": 2.0,
         "ticketText1": "PAGO NO EXITOSO",
-        "ticketText2": "Contacte a su proveedor de servicios",
-        "reference": "REF-PDS-002",
-        "mobileNumber": "",
-        "timestamp": "2026-08-27T16:05:10Z",
-        "transactionLabel": "Pago de servicio TELMEX"
+        "ticketText2": "Contacte a su proveedor de servicios"
       }
     }
   ]
