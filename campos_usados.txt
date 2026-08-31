@@ -1,19 +1,312 @@
-┌─────────────────────────────────┐
-│         [Logo T-CONECTA]        │  → Asset estático
-│                                 │
-│      CR AUTOVEND IM30 1         │  → transaction.companyName
-│         Reforma 222             │  → transaction.address (línea 1)
-│         Mexico 13020            │  → transaction.address (línea 2)
-│       CIUDAD DE MEXICO          │  → transaction.address (línea 3)
-│                                 │
-│ Comercio:    1014327/1736946315 │  → transaction.merchantName
-│ Transacción:           186546   │  → transaction.folio
-│ Fecha y hora: 25-08-2026 17:46  │  → transaction.date + transaction.time
-│ Lote:                           │  → (vacío — no está en el JSON)
-│ RRN:          699901310070      │  → transaction.reference
-│                                 │
-│ 0024                    ICC     │  → transaction.iccAtc + transaction.paymentType
-│ CANCELACION VENTA               │  → cancellation.operationType + transaction.operationType
-│                                 │
-│ TOTAL:          $ -62.00 MXN    │  → cancellation.amount + (tae/pds).currency
-└─────────────────────────────────┘
+
+         [Logo T-CONECTA]          → Asset estático
+                                 
+      CR AUTOVEND IM30 1            → transaction.companyName
+         Reforma 222               → transaction.address (línea 1)
+         Mexico 13020              → transaction.address (línea 2)
+       CIUDAD DE MEXICO            → transaction.address (línea 3)
+                                 
+ Comercio:    1014327/1736946315   → transaction.merchantName
+ Transacción:           186546     → transaction.folio
+ Fecha y hora: 25-08-2026 17:46    → transaction.date + transaction.time
+ Lote:                             → (vacio — no lo encontre en el JSON)
+ RRN:          699901310070        → transaction.reference
+                                 
+ 0024                    ICC       → transaction.iccAtc + transaction.paymentType (maybe)
+ CANCELACION VENTA                 → cancellation.operationType o transaction.operationType
+                                 
+ TOTAL:          $ -62.00 MXN      → cancellation.amount + (tae/pds).currency
+
+
+
+
+
+--------------------------------------------------------------------
+hola que tal, buen día
+ 
+hicimos un análisis del json propuesto por Bau tomando los campos que se tienen en recargas TAE, pds, ventas y cancelaciones en QA
+ 
+y veo que algunos campos de TAE y de PDS no se tienen
+ 
+aqui la propuesta tomando las transacciones mas recientes de QA, agregué comentarios indicando que campos no irán en la mensajería en el tag de tae y pds del json:
+ 
+{
+
+    "qpay_response": "true",
+
+    "qpay_code": "000",
+
+    "qpay_description": "Aprobada",
+
+    "qpay_object": [
+
+        {
+
+            "transaction": {
+
+                "reference": "28082026021728",
+
+				"amount": 100.0,
+
+				"folio": "699901312890",
+
+				"auth": "626106",
+
+				"approved": true,
+
+				"cancel": false,
+
+				"reversal": false,
+
+				"arqc": "C733811DB9EBFA01",
+
+				"appId": "A0000000041010",
+
+				"appidLabel": "CREDITO/BANORTE/MasterCard",
+
+				"companyName": "BLM QA",
+
+				"address": "CORREGIDORA 92 COL. MIGUEL HIDALGO 1A SECCION, CIUDAD DE MEX",
+
+				"ccType": "CREDITO/BANORTE/MasterCard",
+
+				"ccName": "",
+
+				"ccNumber": "6660",
+
+				"ccBin": "544549",
+
+				"ccExpMonth": "11",
+
+				"ccExpYear": "16",
+
+				"date": "28/08/2026",
+
+				"time": "14:17:29",
+
+				"merchantName": "0232321 1736946595",
+
+				"operationType": "VENTA",
+
+				"responseCode": "0C",
+
+				"iccCsn": "",
+
+				"iccAtc": "",
+
+				"iccArpc": "",
+
+				"iccIssuerScript": "",
+
+				"businessId": 69494,
+
+				"customBusinessId": 1736946595,
+
+				"pinOfflineValidation": false,
+
+				"user": "QIUBOPLUS",
+
+				"paymentType": "C",
+
+				"st_qps": "1",
+
+				"cdResponse": "0C",
+
+				"commision": 3.5,
+
+				"dispersionAmount": 96.5,
+
+				"cdcvm": 0,
+
+				"surTax": 0.0,
+
+				"surTaxAmount": 0.0
+
+            },
+
+            "cancellation": {
+
+				"reference": "28082026110011",
+
+				"amount": -80.0,
+
+				"folio": "699901312397",
+
+				"auth": "FK5RIB",
+
+				"approved": true,
+
+				"cancel": true,
+
+				"reversal": false,
+
+				"arqc": "",
+
+				"appId": "",
+
+				"appidLabel": "",
+
+				"companyName": "BLM QA",
+
+				"address": "CORREGIDORA 92 INT. null COL. MIGUEL HIDALGO 1A SECCION, CIUDAD DE MEX",
+
+				"ccType": "DEBITO/BBVA/Visa",
+
+				"ccName": "",
+
+				"ccNumber": "2055",
+
+				"ccExpMonth": "06",
+
+				"ccExpYear": "30",
+
+				"date": "28/08/2026",
+
+				"time": "11:04:14",
+
+				"merchantName": "0232321 1736948727",
+
+				"operationType": "CANCELACION",
+
+				"responseCode": "0C",
+
+				"clientVoucher": "@cnb QIUBO \n@cnn CANCELACION \n@br \n@cnn BLM QA \n@cnn   \n@cnn CORREGIDORA 92  \n@cnn COL. MIGUEL HIDALGO 1A SECCION, CIUDAD DE MEX \n \n@cnn 0232321/1736948727  \n \n \n@lnn No.Tarjeta: xxxxxxxxxxxx2055 \n \n@lnn DEBITO/BBVA/Visa \n \n@br \n@cnb -C-L-I-E-N-T-E- \n@lnn APROBADA \n \n \n@lnn IMPORTE\n@cnb $ -80.00 MXN \n@cnb Oper.:     699901312397 \n@lnn Ref.:      28082026110011 \n@cnb Aut.:      FK5RIB \n \n \n \n \n@lnn   \n@lnn Fecha: 28/08/2026 11:04:14 \n \n \n \n@br \n \n@br \n@cnn  ME OBLIGO EN LOS TERMINOS DADOS\n@cnn  AL REVERSO DE ESTE DOCUMENTO \n@br \n \n@br \n \n@cnn ver_app \n@bc 699901312397 \n \n",
+
+				"businessVoucher": "@cnb QIUBO \n@cnn CANCELACION \n@br \n@cnn BLM QA \n@cnn   \n@cnn CORREGIDORA 92  \n@cnn COL. MIGUEL HIDALGO 1A SECCION, CIUDAD DE MEX \n \n@cnn 0232321/1736948727  \n \n \n \n@lnn No.Tarjeta: xxxxxxxxxxxx2055 \n \n@lnn DEBITO/BBVA/Visa \n \n@cnb -C-O-M-E-R-C-I-O- \n@br \n@lnn APROBADA \n \n \n@lnn IMPORTE\n@cnb $ -80.00 MXN \n@cnb Oper.:     699901312397 \n@lnn Ref.:      28082026110011 \n@cnb Aut.:      FK5RIB \n \n \n \n \n@lnn   \n@lnn Fecha: 28/08/2026 11:04:14 \n \n@br \n \n \n@br \n@br \n@br \n@cnn ______________________________ \n@cnn  \n \n@br \n@cnn  ME OBLIGO EN LOS TERMINOS DADOS\n@cnn  AL REVERSO DE ESTE DOCUMENTO \n@br \n \n@br \n \n@cnn ver_app \n@bc 699901312397 \n \n \n",
+
+				"businessId": 103953,
+
+				"customBusinessId": 1736948727,
+
+				"pinOfflineValidation": false,
+
+				"st_qps": "",
+
+				"cdResponse": "0C",
+
+				"cdcvm": 0,
+
+				"surTax": 0.0,
+
+				"surTaxAmount": 0.0
+
+            },
+
+            "tae": {
+
+				"dateTime": "2026-08-04 16:08:37",
+
+				"country": "MEX",
+
+				"amount": "95.00",
+
+				"product": "",
+
+				"vendorReference": "604600007",
+
+				"mobileNumber": "5543222222",
+
+				"trxId": "85702687",
+
+				"platformFee": null,
+
+				"transactionId": "85702687",
+
+				"reference": "1616432",
+
+				"transactionLabel": " Atención a clientes: Llama al 800800 ó al *4262 desde mi Valor.",
+
+				"requestId": 10023,
+
+				"currency": "MXN",
+
+				"flatFee": "00.0"
+
+				/*ESTOS CAMPOS NO VAN*/
+
+                "authorizationNumber": "AUTH-987654",
+
+                "customerId": "CUST-456789",
+
+                "channelId": "MOBILE_APP",
+
+                "extra": "Recarga exitosa",
+
+                "terminalId": "TERM-001",
+
+                "providerAuth": "PROVIDER-AUTH-123",
+
+                "timestamp": "2026-08-27T14:30:00Z",
+
+                "commission": "3.00",
+
+                "accountNumber": "0123456789",
+
+                "bimboAward": true,
+
+                "bimboAwardMessage": "Has recibido un beneficio Bimbo",
+
+            },
+
+            "pds": {
+
+				"dateTime": "2026-08-11 15:31:24",
+
+				"country": "MEX",
+
+				"amount": 663.0,
+
+				"vendorReference": "23940fd5-b835-49ed-b221-f4e594acd386",
+
+				"fee": 0.6,
+
+				"accountNumber": "821970704543",
+
+				"trxId": 1616620,
+
+				"platformFee": 14.17,
+
+				"transactionId": 173849,
+
+				"ticketText1": "Pago realizado exitosamente Auth: 23940fd5-b835-49ed-b221-f4e594acd386",
+
+				"ticketText2": "SERVICIO OPERADO POR MONATO. FAVOR DE GUARDAR ESTE COMPROBANTE DE PAGO PARA POSIBLES ACLARACIONES. PARA CUALQUIER DUDA LLAME AL 55 9315 8885.",
+
+				"requestId": 246637,
+
+				"currency": "MXN",
+
+				"commission": 5.4,
+
+				"flatFee": 12.0
+
+				/*ESTOS CAMPOS NO VAN*/
+
+                "surcharge": "0.00",
+
+                "product": "RECARGA",
+
+                "verificationDigit": "7",
+
+                "billReference": "BILL-987654",
+
+                "accountNumber3": "789",
+
+                "accountNumber2": "456",
+
+                "accountNumber1": "012",
+
+                "reference": "REF-456789",
+
+                "mobileNumber": "5512345678",
+
+                "transactionLabel": "Pago de servicio"
+
+            }
+
+        }
+
+    ]
+
+}
+ 
