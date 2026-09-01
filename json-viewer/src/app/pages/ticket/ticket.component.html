@@ -14,29 +14,13 @@
     <!-- ── Ticket card ────────────────────────────────── -->
     <div *ngIf="ticket && !loading" class="ticket-card">
 
-      <!-- Header: logo + marca + comercio -->
+      <!-- Header: logo + comercio -->
       <div class="ticket-head">
 
-        <!-- Logo T-CONECTA (anillos entrelazados) -->
+        <!-- Logo T-CONECTA -->
         <div class="logo-wrap">
-          <svg width="82" height="54" viewBox="0 0 82 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <clipPath id="lh"><rect width="41" height="54"/></clipPath>
-              <clipPath id="rh"><rect x="41" width="41" height="54"/></clipPath>
-            </defs>
-            <!-- Anillo azul porción derecha (detrás del rojo) -->
-            <circle cx="27" cy="27" r="20" stroke="#1b2875" stroke-width="7.5" clip-path="url(#rh)"/>
-            <!-- Anillo rojo completo (encima) -->
-            <circle cx="55" cy="27" r="20" stroke="#c82525" stroke-width="7.5"/>
-            <!-- Anillo azul porción izquierda (delante del rojo) -->
-            <circle cx="27" cy="27" r="20" stroke="#1b2875" stroke-width="7.5" clip-path="url(#lh)"/>
-          </svg>
+          <img src="Pack.png" alt="T-CONECTA" class="brand-logo" />
         </div>
-
-        <!-- Nombre de marca -->
-        <h1 class="brand-name">
-          <span class="accent">T</span>-CONECT<span class="accent">A</span>
-        </h1>
 
         <!-- Datos del comercio -->
         <p class="merchant-name">{{ ticket.merchantName }}</p>

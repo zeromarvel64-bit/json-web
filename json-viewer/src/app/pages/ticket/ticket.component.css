@@ -37,18 +37,16 @@
 .logo-wrap {
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 
-.brand-name {
-  font-size: 22px;
-  font-weight: 800;
-  color: #1b2875;
-  letter-spacing: 0.04em;
-  margin-bottom: 14px;
-  line-height: 1;
+.brand-logo {
+  width: auto;
+  height: 130px;
+  max-width: 260px;
+  object-fit: contain;
+  display: block;
 }
-.brand-name .accent { color: #c82525; }
 
 .merchant-name {
   font-size: 15px;
@@ -148,8 +146,8 @@
 }
 
 .total-amount .sym {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 700;
   margin-right: 2px;
 }
 
@@ -226,11 +224,12 @@
 
 /* ── Responsive móvil ────────────────────────────────────────────────────── */
 @media (max-width: 520px) {
-  .page-bg          { padding: 16px 12px 20px; align-items: flex-start; }
-  .ticket-card      { border-radius: 14px; padding: 28px 20px 18px; }
-  .divider          { margin: 0 -20px; }
-  .btn-download     { border-radius: 12px; padding: 16px; font-size: 15px; }
+  .page-bg           { padding: 16px 12px 20px; align-items: flex-start; }
+  .ticket-card       { border-radius: 14px; padding: 28px 20px 18px; }
+  .divider           { margin: 0 -20px; }
   .total-amount .num { font-size: 26px; }
+  .total-amount .sym { font-size: 20px; }
+  .brand-logo        { height: 110px; max-width: 220px; }
 }
 
 /* ── Estilos de impresión (Descargar PDF) ────────────────────────────────── */
