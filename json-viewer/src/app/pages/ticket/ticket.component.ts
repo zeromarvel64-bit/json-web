@@ -36,10 +36,12 @@ export class TicketComponent implements OnInit {
     });
   }
 
-  /** Icono dinámico según el tipo de operación */
+  /** Icono dinámico según el estado de la operación */
   get opIcon(): string {
     if (!this.ticket) return '';
-    return this.ticket.operationClass === 'cancellation' ? '×' : '✓';
+    if (this.ticket.operationClass === 'cancelled') return '×';
+    if (this.ticket.operationClass === 'pending')   return '◷';
+    return '✓';
   }
 
   /** Número absoluto formateado para el total */

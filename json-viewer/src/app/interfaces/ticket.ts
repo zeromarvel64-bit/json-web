@@ -4,9 +4,9 @@ export interface TicketData {
   merchantAddress: string;
   merchantCity:    string;
 
-  // Tipo de operación y clase visual
+  // Tipo de operación y estado visual
   operationType:  string;
-  operationClass: 'cancellation' | 'sale' | 'recharge' | 'payment';
+  operationClass: 'success' | 'pending' | 'cancelled';
 
   // Campos del recibo
   comercio:   string;

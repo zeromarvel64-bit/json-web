@@ -77,10 +77,9 @@
   padding: 14px 0;
 }
 
-.op-type.cancellation { color: #c82525; }
-.op-type.sale         { color: #1b7a3e; }
-.op-type.recharge     { color: #c07a10; }
-.op-type.payment      { color: #1b5dc8; }
+.op-type.success   { color: #1b7a3e; }  /* verde  — exitosa    */
+.op-type.pending   { color: #c07a10; }  /* amarillo — en proceso */
+.op-type.cancelled { color: #c82525; }  /* rojo   — cancelada  */
 
 .op-icon {
   margin-right: 5px;
