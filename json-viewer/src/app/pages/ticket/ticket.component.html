@@ -107,26 +107,14 @@
       <!-- Separador -->
       <div class="divider"></div>
 
-      <!-- Pie del ticket -->
-      <div class="ticket-footer">
-        <div class="footer-text">
-          <p>{{ ticket.footerLine1 }}</p>
-          <p>{{ ticket.footerLine2 }}</p>
-        </div>
-        <!-- QR placeholder (patrón ajedrez) -->
-        <div class="qr-box"></div>
-      </div>
+      <!-- Pie del ticket — espacio en blanco reservado -->
+      <div class="ticket-footer"></div>
 
     </div>
     <!-- /ticket-card -->
 
-    <!-- ── Botón descargar ─────────────────────────────── -->
-    <button
-      *ngIf="ticket && !loading"
-      class="btn-download"
-      (click)="downloadPdf()">
-      &#8595;&nbsp; Descargar PDF
-    </button>
+    <!-- Espacio inferior reservado -->
+    <div class="btn-spacer"></div>
 
   </div>
 </div>
