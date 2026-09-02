@@ -80,20 +80,20 @@
         "surTaxAmount": 0.0
       },
       "tae": {
-        "transactionId": "TXN-200000002",
-        "dateTime": "2026-08-27T11:30:45-06:00",
-        "requestId": 200000002,
-        "reference": "REF-TAE-002",
-        "country": "MX",
-        "currency": "MXN",
+        "dateTime": "2026-08-27 11:30:45",
+        "country": "MEX",
         "amount": "150.00",
-        "product": "RECARGA TELEFÓNICA",
-        "trxId": "TRX-20260827113045",
-        "flatFee": "3.00",
+        "product": "",
+        "vendorReference": "",
         "mobileNumber": "5598765432",
-        "vendorReference": "VENDOR-MOVISTAR-002",
+        "trxId": "",
         "platformFee": null,
-        "transactionLabel": "Recarga móvil MOVISTAR"
+        "transactionId": "",
+        "reference": "",
+        "transactionLabel": "",
+        "requestId": 10002,
+        "currency": "MXN",
+        "flatFee": "00.0"
       },
       "pds": null
     }

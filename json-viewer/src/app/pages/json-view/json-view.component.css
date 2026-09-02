@@ -1,21 +1,25 @@
-/* ── Layout general ──────────────────────────────────────────────────────── */
+/* ── Layout general ─────────────────────────────────── */
 .page-wrapper {
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #f0f2f5;
-  padding: 28px 20px;
+  padding: 24px 16px;
 }
 
-/* ── Estados: Loading / Error ────────────────────────────────────────────── */
+/* ── Tarjeta base ───────────────────────────────────── */
 .state-card {
   background: #fff;
   border-radius: 12px;
-  padding: 48px;
+  padding: 40px 48px;
   max-width: 480px;
-  margin: 80px auto;
+  width: 100%;
   box-shadow: 0 4px 20px rgba(0,0,0,.08);
   text-align: center;
 }
 
+/* ── Loading ────────────────────────────────────────── */
 .loading-card p {
   color: #666;
   margin-top: 16px;
@@ -34,10 +38,10 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.error-card  { border-top: 4px solid #ef4444; }
+/* ── Error ──────────────────────────────────────────── */
+.error-card { border-top: 4px solid #ef4444; }
 .error-card h2 { color: #ef4444; margin: 12px 0 8px; }
 .error-card p  { color: #555; }
-
 .state-icon { font-size: 40px; }
 
 .btn-retry {
@@ -53,171 +57,157 @@
 }
 .btn-retry:hover { background: #4338ca; }
 
-/* ── Encabezado de respuesta QPay ────────────────────────────────────────── */
-.response-header {
-  max-width: 960px;
-  margin: 0 auto 24px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px 28px;
-  box-shadow: 0 4px 20px rgba(0,0,0,.08);
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border-left: 6px solid #94a3b8;
+/* ── Ticket principal ───────────────────────────────── */
+.payload-card {
+  text-align: left;
+  padding: 32px 36px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  color: #1a1a2e;
+  border-top: none;
 }
-.response-header.approved { border-left-color: #22c55e; }
-.response-header.rejected { border-left-color: #ef4444; }
 
-.code-badge {
-  font-size: 22px;
+/* ── Encabezado: logo + nombre + dirección ──────────── */
+.ticket-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed #ccc;
+}
+
+.company-name {
+  font-size: 15px;
   font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 8px;
-  letter-spacing: .05em;
+  color: #c8102e;
+  margin: 0 0 4px;
+  letter-spacing: .02em;
 }
-.code-ok   { background: #dcfce7; color: #15803d; }
-.code-fail { background: #fee2e2; color: #dc2626; }
 
-.header-info { flex: 1; }
-.header-info h2 { margin: 0 0 4px; font-size: 20px; color: #1a1a2e; }
-.header-id  { font-size: 12px; color: #888; }
-
-.status-pill {
+.company-address {
   font-size: 12px;
-  font-weight: 700;
-  padding: 5px 14px;
-  border-radius: 20px;
-  letter-spacing: .06em;
-}
-.pill-approved { background: #dcfce7; color: #15803d; }
-.pill-rejected { background: #fee2e2; color: #dc2626; }
-
-/* ── Grid de secciones ───────────────────────────────────────────────────── */
-.sections-grid {
-  max-width: 960px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-  gap: 20px;
-}
-
-/* ── Tarjeta de sección ──────────────────────────────────────────────────── */
-.section-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 24px 28px;
-  box-shadow: 0 4px 20px rgba(0,0,0,.08);
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-.section-title h3 {
+  color: #555;
   margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Cuerpo: filas de datos ─────────────────────────── */
+.ticket-body {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed #ccc;
+}
+
+.ticket-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 4px 0;
+  gap: 12px;
+}
+
+.ticket-row span:first-child {
+  color: #555;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ticket-row span:last-child {
+  color: #1a1a2e;
+  font-weight: 600;
+  text-align: right;
+  word-break: break-all;
+}
+
+.operation-type {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  justify-content: flex-start;
+}
+
+/* ── Sección TAE / PDS ──────────────────────────────── */
+.ticket-section {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed #ccc;
+}
+
+.tae-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #888;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.pds-ticket-text {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: #1a1a2e;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.pds-ticket-text2 {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.tae-note {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #666;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ── Total ──────────────────────────────────────────── */
+.ticket-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  margin-bottom: 16px;
+  border-top: 2px solid #1a1a2e;
+  border-bottom: 2px solid #1a1a2e;
+}
+
+.ticket-total span:first-child {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.ticket-total span:last-child {
   font-size: 16px;
   font-weight: 700;
   color: #1a1a2e;
 }
 
-.section-icon { font-size: 20px; }
+.ticket-total.negative span:last-child {
+  color: #dc2626;
+}
 
-/* Badges de tipo de operación */
-.op-badge {
+/* ── Footer ─────────────────────────────────────────── */
+.ticket-footer {
+  padding-top: 8px;
+  border-top: 1px dashed #ccc;
+}
+
+.ticket-legal {
+  margin-top: 12px;
   font-size: 11px;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-  letter-spacing: .05em;
-}
-.op-venta  { background: #e0e7ff; color: #4338ca; }
-.op-cancel { background: #fee2e2; color: #dc2626; }
-.op-tae    { background: #fef3c7; color: #b45309; }
-.op-pds    { background: #f0fdf4; color: #15803d; }
-
-.approved-pill {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 20px;
-  background: #dcfce7;
-  color: #15803d;
-}
-
-/* ── Monto destacado ─────────────────────────────────────────────────────── */
-.amount-display {
-  font-size: 32px;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 6px;
-}
-.amount-display.negative { color: #dc2626; }
-.currency {
-  font-size: 14px;
-  font-weight: 500;
   color: #888;
-  margin-left: 4px;
+  text-align: center;
+  font-style: italic;
 }
 
-/* ── Info de tarjeta ─────────────────────────────────────────────────────── */
-.card-row {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-  font-size: 13px;
-}
-.card-type { color: #555; }
-.card-num  { color: #888; font-family: monospace; letter-spacing: .08em; }
-
-/* ── Tabla de detalle ────────────────────────────────────────────────────── */
-.detail-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 8px;
-}
-.detail-table tr { border-bottom: 1px solid #f3f4f6; }
-.detail-table tr:last-child { border-bottom: none; }
-.detail-table td {
-  padding: 8px 0;
-  font-size: 13px;
-  vertical-align: top;
-}
-.detail-table td:first-child {
-  color: #888;
-  width: 42%;
-  font-weight: 500;
-  padding-right: 8px;
-}
-.detail-table td:last-child {
-  color: #1a1a2e;
-  font-weight: 600;
-}
-.break-all { word-break: break-all; }
-
-/* ── Nota de ticket ──────────────────────────────────────────────────────── */
-.ticket-note {
-  margin-top: 16px;
-  padding: 10px 14px;
-  background: #f8fafc;
-  border-left: 3px solid #94a3b8;
-  border-radius: 4px;
-  font-size: 12px;
-  color: #555;
-  line-height: 1.5;
-}
-.ticket-note.secondary {
-  border-left-color: #cbd5e1;
-  color: #888;
-  margin-top: 8px;
-}
-
-/* ── Responsive ──────────────────────────────────────────────────────────── */
-@media (max-width: 600px) {
-  .sections-grid { grid-template-columns: 1fr; }
-  .response-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .amount-display { font-size: 26px; }
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 520px) {
+  .state-card  { padding: 28px 20px; }
+  .payload-card { padding: 24px 20px; }
 }

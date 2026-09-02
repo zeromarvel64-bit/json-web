@@ -47,20 +47,20 @@
       },
       "cancellation": null,
       "tae": {
-        "transactionId": "TXN-200000001",
-        "dateTime": "2026-08-27T10:15:30-06:00",
-        "requestId": 200000001,
-        "reference": "REF-TAE-001",
-        "country": "MX",
-        "currency": "MXN",
+        "dateTime": "2026-08-27 10:15:30",
+        "country": "MEX",
         "amount": "150.00",
-        "product": "RECARGA TELEFÓNICA",
-        "trxId": "TRX-20260827101530",
-        "flatFee": "3.00",
+        "product": "",
+        "vendorReference": "604600001",
         "mobileNumber": "5512345678",
-        "vendorReference": "VENDOR-TELCEL-001",
+        "trxId": "85702001",
         "platformFee": null,
-        "transactionLabel": "Recarga móvil TELCEL"
+        "transactionId": "85702001",
+        "reference": "1616001",
+        "transactionLabel": "Atención a clientes: Llama al 800 123 2020 desde mi Telcel.",
+        "requestId": 10001,
+        "currency": "MXN",
+        "flatFee": "00.0"
       },
       "pds": null
     }

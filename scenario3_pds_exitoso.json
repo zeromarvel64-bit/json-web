@@ -6,7 +6,7 @@
     {
       "transaction": {
         "reference": "27082026142200",
-        "amount": 520.0,
+        "amount": 534.17,
         "folio": "699901312004",
         "auth": "654210",
         "approved": true,
@@ -39,8 +39,8 @@
         "paymentType": "C",
         "st_qps": "0",
         "cdResponse": "0C",
-        "commision": 10.0,
-        "dispersionAmount": 510.0,
+        "commision": 5.4,
+        "dispersionAmount": 528.77,
         "cdcvm": 0,
         "surTax": 0.0,
         "surTaxAmount": 0.0
@@ -48,21 +48,21 @@
       "cancellation": null,
       "tae": null,
       "pds": {
-        "dateTime": "2026-08-27T14:22:00-06:00",
-        "country": "MX",
-        "amount": "520.00",
-        "vendorReference": "VENDOR-CFE-20260827",
-        "trxId": "TRX-20260827142200",
-        "transactionId": "TXN-300000001",
+        "dateTime": "2026-08-27 14:22:00",
+        "country": "MEX",
+        "amount": 520.0,
+        "vendorReference": "23940fd5-c835-49ed-b221-f4e594acd003",
+        "fee": 0.6,
         "accountNumber": "1234567890",
-        "requestId": 300000001,
+        "trxId": 1616001,
+        "platformFee": 14.17,
+        "transactionId": 173001,
+        "ticketText1": "Pago realizado exitosamente Auth: 23940fd5-c835-49ed-b221-f4e594acd003",
+        "ticketText2": "SERVICIO OPERADO POR MONATO. FAVOR DE GUARDAR ESTE COMPROBANTE DE PAGO PARA POSIBLES ACLARACIONES. PARA CUALQUIER DUDA LLAME AL 55 9315 8885.",
+        "requestId": 246001,
         "currency": "MXN",
-        "commission": "10.00",
-        "fee": 5.0,
-        "flatFee": 3.0,
-        "platformFee": 2.0,
-        "ticketText1": "PAGO EXITOSO",
-        "ticketText2": "Conserve este comprobante"
+        "commission": 5.4,
+        "flatFee": 12.0
       }
     }
   ]

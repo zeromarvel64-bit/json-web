@@ -81,21 +81,21 @@
       },
       "tae": null,
       "pds": {
-        "dateTime": "2026-08-27T16:05:10-06:00",
-        "country": "MX",
-        "amount": "380.00",
-        "vendorReference": "VENDOR-TELMEX-20260827",
-        "trxId": "TRX-20260827160510",
-        "transactionId": "TXN-300000002",
+        "dateTime": "2026-08-27 16:05:10",
+        "country": "MEX",
+        "amount": 380.0,
+        "vendorReference": "",
+        "fee": 0.0,
         "accountNumber": "5551234567",
-        "requestId": 300000002,
+        "trxId": 0,
+        "platformFee": 0.0,
+        "transactionId": 0,
+        "ticketText1": "Pago no realizado. Error en transacción.",
+        "ticketText2": "SERVICIO OPERADO POR MONATO. FAVOR DE GUARDAR ESTE COMPROBANTE DE PAGO PARA POSIBLES ACLARACIONES. PARA CUALQUIER DUDA LLAME AL 55 9315 8885.",
+        "requestId": 246002,
         "currency": "MXN",
-        "commission": "8.00",
-        "fee": 4.0,
-        "flatFee": 2.0,
-        "platformFee": 2.0,
-        "ticketText1": "PAGO NO EXITOSO",
-        "ticketText2": "Contacte a su proveedor de servicios"
+        "commission": 0.0,
+        "flatFee": 0.0
       }
     }
   ]

@@ -1,0 +1,349 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mockup — Ticket PDS Exitoso</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #dde2ef;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 32px 16px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .ticket-card {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 6px 28px rgba(20, 30, 80, 0.13);
+      padding: 32px 28px 28px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* ── Encabezado ── */
+    .ticket-head {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+    .brand-logo {
+      height: 120px;
+      width: auto;
+      display: block;
+      margin: 0 auto 14px;
+    }
+    .merchant-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 3px;
+    }
+    .merchant-sub {
+      font-size: 12.5px;
+      color: #8a8a9e;
+      line-height: 1.55;
+    }
+
+    /* ── Separadores ── */
+    .divider {
+      height: 1px;
+      background: #e6e8f0;
+      margin: 0 -28px;
+    }
+
+    /* ── Badge operación ── */
+    .op-type {
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 14px 0;
+      color: #1b7a3e;
+    }
+    .op-icon { margin-right: 5px; }
+
+    /* ── Filas de datos (sección card) ── */
+    .ticket-rows { padding: 2px 0; }
+    .ticket-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid #f0f1f7;
+    }
+    .ticket-row.no-border { border-bottom: none; }
+    .row-label { font-size: 13px; color: #8a8a9e; font-weight: 400; flex-shrink: 0; }
+    .row-value { font-size: 13px; color: #1a1a2e; font-weight: 600; text-align: right; margin-left: 12px; }
+
+    /* ── Total (tarjeta) ── */
+    .ticket-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0 16px;
+    }
+    .total-label { font-size: 14px; font-weight: 800; color: #1a1a2e; letter-spacing: 0.06em; }
+    .total-amount { display: flex; align-items: baseline; gap: 3px; color: #1a1a2e; }
+    .total-amount .sym { font-size: 24px; font-weight: 700; margin-right: 2px; }
+    .total-amount .num { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+    .total-amount .curr { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; align-self: flex-end; margin-bottom: 2px; margin-left: 2px; }
+
+    /* ────────────────────────────────────────────────── */
+    /* ── NUEVA SECCIÓN PDS (debajo del divider) ──────── */
+    /* ────────────────────────────────────────────────── */
+
+    .pds-section {
+      padding-top: 18px;
+    }
+
+    /* Nombre del servicio */
+    .pds-service-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f0f1f7;
+    }
+
+    /* Filas monto PDS */
+    .pds-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 7px 0;
+      border-bottom: 1px dashed #eee;
+    }
+    .pds-row:last-of-type { border-bottom: none; }
+    .pds-row-label { font-size: 12.5px; color: #8a8a9e; flex-shrink: 0; max-width: 50%; }
+    .pds-row-value { font-size: 12.5px; color: #1a1a2e; font-weight: 600; text-align: right; }
+
+    /* Total PDS */
+    .pds-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      margin-top: 2px;
+      border-top: 1.5px solid #1a1a2e;
+      border-bottom: 1.5px solid #1a1a2e;
+    }
+    .pds-total-label { font-size: 13px; font-weight: 700; color: #1a1a2e; }
+    .pds-total-value { font-size: 13px; font-weight: 700; color: #1a1a2e; }
+
+    /* Fecha/Transacción/Referencia PDS */
+    .pds-meta { margin-top: 12px; }
+    .pds-meta-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+    .pds-meta-label { font-size: 12px; color: #8a8a9e; }
+    .pds-meta-value { font-size: 12px; color: #1a1a2e; font-weight: 600; }
+
+    /* Mensaje auth */
+    .pds-auth-msg {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #1a1a2e;
+      line-height: 1.5;
+      padding: 10px;
+      background: #f8fafc;
+      border-radius: 6px;
+    }
+
+    /* Mensaje operador */
+    .pds-operator-msg {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #555;
+      line-height: 1.55;
+      padding: 10px;
+      background: #f8fafc;
+      border-radius: 6px;
+      text-align: justify;
+    }
+
+    /* Tienda */
+    .pds-tienda {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed #ccc;
+    }
+    .pds-tienda-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+    }
+    .pds-tienda-label { color: #8a8a9e; }
+    .pds-tienda-value { color: #1a1a2e; font-weight: 600; }
+
+    /* Footer legal */
+    .pds-importante {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 11.5px;
+      color: #1a1a2e;
+    }
+    .pds-importante .imp-title { font-weight: 700; }
+    .pds-no-fiscal {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 11px;
+      color: #c82525;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ticket-card">
+
+    <!-- ── Encabezado ── -->
+    <div class="ticket-head">
+      <img src="data:image/png;base64,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" alt="T-CONECTA" class="brand-logo" />
+      <p class="merchant-name">CR AUTOVEND IM30 1</p>
+      <p class="merchant-sub">Reforma 222 · México 13020</p>
+      <p class="merchant-sub">Ciudad de México</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Badge ── -->
+    <div class="op-type">
+      <span class="op-icon">✓</span> PAGO DE SERVICIO EXITOSO
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Datos transacción (tarjeta) ── -->
+    <div class="ticket-rows">
+      <div class="ticket-row">
+        <span class="row-label">Comercio</span>
+        <span class="row-value">25163 / 1736940219</span>
+      </div>
+      <div class="ticket-row">
+        <span class="row-label">Transacción</span>
+        <span class="row-value">300000001</span>
+      </div>
+      <div class="ticket-row">
+        <span class="row-label">Fecha y hora</span>
+        <span class="row-value">27-08-2026 · 14:22:00</span>
+      </div>
+      <div class="ticket-row">
+        <span class="row-label">Lote</span>
+        <span class="row-value">0</span>
+      </div>
+      <div class="ticket-row">
+        <span class="row-label">RRN</span>
+        <span class="row-value">699901312004</span>
+      </div>
+      <div class="ticket-row no-border">
+        <span class="row-label">Aplicación</span>
+        <span class="row-value">0091 · ICC</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Total (cargo a la tarjeta) ── -->
+    <div class="ticket-total">
+      <span class="total-label">TOTAL</span>
+      <div class="total-amount">
+        <span class="sym">$</span>
+        <span class="num">520.00</span>
+        <span class="curr">MXN</span>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- ── DIVISIÓN + SECCIÓN PDS ────────────────── -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="divider"></div>
+
+    <div class="pds-section">
+
+      <!-- Nombre del servicio -->
+      <p class="pds-service-name">Izzi</p>
+
+      <!-- Montos -->
+      <div class="pds-row">
+        <span class="pds-row-label">Monto:</span>
+        <span class="pds-row-value">MXN 400.00</span>
+      </div>
+      <div class="pds-row">
+        <span class="pds-row-label">Comisión:</span>
+        <span class="pds-row-value">MXN 12.00</span>
+      </div>
+      <div class="pds-row">
+        <span class="pds-row-label">C.T.:</span>
+        <span class="pds-row-value">MXN 7.00</span>
+      </div>
+      <div class="pds-row">
+        <span class="pds-row-label">Cobro por uso de plataforma:</span>
+        <span class="pds-row-value">MXN 0.00</span>
+      </div>
+
+      <!-- Total PDS -->
+      <div class="pds-total-row">
+        <span class="pds-total-label">Total:</span>
+        <span class="pds-total-value">MXN 412.00</span>
+      </div>
+
+      <!-- Fecha / Transacción / Referencia -->
+      <div class="pds-meta">
+        <div class="pds-meta-row">
+          <span class="pds-meta-label">Fecha y hora:</span>
+          <span class="pds-meta-value">25-08-2026 17:57:13</span>
+        </div>
+        <div class="pds-meta-row">
+          <span class="pds-meta-label">Transacción:</span>
+          <span class="pds-meta-value">246663</span>
+        </div>
+        <div class="pds-meta-row">
+          <span class="pds-meta-label">Referencia:</span>
+          <span class="pds-meta-value">87654321</span>
+        </div>
+      </div>
+
+      <!-- Auth -->
+      <div class="pds-auth-msg">
+        Pago realizado exitosamente Auth: 763d42da-b06e-4d78-909c-439340d59fa4
+      </div>
+
+      <!-- Mensaje operador -->
+      <div class="pds-operator-msg">
+        SERVICIO OPERADO POR MONATO. FAVOR DE GUARDAR ESTE COMPROBANTE DE PAGO PARA POSIBLES ACLARACIONES.
+        PARA CUALQUIER DUDA LLAME AL 55 9315 8885.
+      </div>
+
+      <!-- Tienda -->
+      <div class="pds-tienda">
+        <div class="pds-tienda-row">
+          <span class="pds-tienda-label">Tienda:</span>
+          <span class="pds-tienda-value">CR AUTOVEND IM30 1</span>
+        </div>
+      </div>
+
+      <!-- IMPORTANTE -->
+      <div class="pds-importante">
+        <p class="imp-title">IMPORTANTE:</p>
+        <p>Conservar este comprobante para futuras aclaraciones</p>
+      </div>
+
+      <!-- No fiscal -->
+      <p class="pds-no-fiscal">ESTE NO ES UN COMPROBANTE FISCAL.</p>
+
+    </div>
+    <!-- /pds-section -->
+
+  </div>
+
+</body>
+</html>
+

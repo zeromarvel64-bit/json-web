@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JsonDataService } from '../../services/json-data.service';
-import { QpayResponse, QpayObject } from '../../interfaces/json-payload';
+import { QpayResponse, QpayObject, TransactionData, CancellationData, TaeData, PdsData } from '../../interfaces/json-payload';
 
 @Component({
   selector: 'app-json-view',
@@ -11,10 +11,10 @@ import { QpayResponse, QpayObject } from '../../interfaces/json-payload';
 })
 export class JsonViewComponent implements OnInit {
 
-  qpayData: QpayResponse | null = null;
+  payload: QpayResponse | null = null;
   loading = false;
   error: string | null = null;
-  currentId: string | null = null;
+  currentRi: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,24 +22,23 @@ export class JsonViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      this.currentId = id;
-      if (id) {
-        this.loadData(id);
-      }
+    // Lee el query param ?ri= de la URL (ej: /ticket?ri=699901310070)
+    this.route.queryParamMap.subscribe(params => {
+      const ri = params.get('ri') ?? 'demo';
+      this.currentRi = ri;
+      this.loadData(ri);
     });
   }
 
-  loadData(id: string): void {
+  loadData(ri: string): void {
     this.loading = true;
     this.error = null;
-    this.qpayData = null;
+    this.payload = null;
 
-    // Cambiar a getDataFromApi(id) cuando el equipo provea el endpoint real
-    this.jsonDataService.getData(id).subscribe({
+    // Cambiar a getDataFromApi(ri) cuando el equipo provea el endpoint real
+    this.jsonDataService.getData(ri).subscribe({
       next: (data) => {
-        this.qpayData = data;
+        this.payload = data;
         this.loading = false;
       },
       error: () => {
@@ -49,13 +48,80 @@ export class JsonViewComponent implements OnInit {
     });
   }
 
-  /** Primer (y normalmente único) elemento de qpay_object */
+  // --- Accesores del objeto principal ---
+
   get qpayObject(): QpayObject | null {
-    return this.qpayData?.qpay_object?.[0] ?? null;
+    return this.payload?.qpay_object?.[0] ?? null;
   }
 
-  /** Respuesta aprobada si qpay_response es "true" y qpay_code es "000" */
-  get isApproved(): boolean {
-    return this.qpayData?.qpay_response === 'true' && this.qpayData?.qpay_code === '000';
+  get transaction(): TransactionData | null {
+    return this.qpayObject?.transaction ?? null;
+  }
+
+  get cancellation(): CancellationData | null {
+    return this.qpayObject?.cancellation ?? null;
+  }
+
+  get tae(): TaeData | null {
+    return this.qpayObject?.tae ?? null;
+  }
+
+  get pds(): PdsData | null {
+    return this.qpayObject?.pds ?? null;
+  }
+
+  // --- Helpers de lógica ---
+
+  get hasCancellation(): boolean {
+    return this.cancellation !== null;
+  }
+
+  get hasTae(): boolean {
+    return this.tae !== null;
+  }
+
+  get hasPds(): boolean {
+    return this.pds !== null;
+  }
+
+  /** Escenario detectado según qué objetos están presentes */
+  get scenarioType(): 'tae_exitosa' | 'tae_no_exitosa' | 'pds_exitosa' | 'pds_no_exitosa' | 'unknown' {
+    if (this.hasTae && !this.hasCancellation) return 'tae_exitosa';
+    if (this.hasTae && this.hasCancellation)  return 'tae_no_exitosa';
+    if (this.hasPds && !this.hasCancellation) return 'pds_exitosa';
+    if (this.hasPds && this.hasCancellation)  return 'pds_no_exitosa';
+    return 'unknown';
+  }
+
+  /** Monto total a mostrar — cancellation si existe, si no transaction */
+  get totalAmount(): number {
+    return this.cancellation?.amount ?? this.transaction?.amount ?? 0;
+  }
+
+  /** Moneda — viene de tae o pds, fallback MXN */
+  get currency(): string {
+    return this.tae?.currency ?? this.pds?.currency ?? 'MXN';
+  }
+
+  /** Etiqueta del tipo de operación */
+  get operationLabel(): string {
+    if (!this.transaction) return '';
+    if (this.cancellation) {
+      return `${this.cancellation.operationType} ${this.transaction.operationType}`;
+    }
+    return this.transaction.operationType;
+  }
+
+  /** Traduce paymentType a etiqueta legible */
+  get paymentTypeLabel(): string {
+    const map: Record<string, string> = { 'C': 'ICC', 'B': 'BANDA', 'NFC': 'CONTACTLESS' };
+    return map[this.transaction?.paymentType ?? ''] ?? this.transaction?.paymentType ?? '';
+  }
+
+  /** Indica si la operación fue exitosa */
+  get isSuccess(): boolean {
+    if (this.hasTae)  return !this.hasCancellation && (this.tae?.trxId !== '');
+    if (this.hasPds)  return !this.hasCancellation && (this.pds?.transactionId !== 0);
+    return false;
   }
 }

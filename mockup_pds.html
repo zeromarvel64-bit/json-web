@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mockup — Ticket PDS Exitoso</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #dde2ef;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 32px 16px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .ticket-card {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 6px 28px rgba(20, 30, 80, 0.13);
+      padding: 32px 28px 28px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* ── Encabezado ── */
+    .ticket-head {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+    .brand-logo {
+      height: 120px;
+      width: auto;
+      display: block;
+      margin: 0 auto 14px;
+    }
+    .merchant-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 3px;
+    }
+    .merchant-sub {
+      font-size: 12.5px;
+      color: #8a8a9e;
+      line-height: 1.55;
+    }
+
+    /* ── Separadores ── */
+    .divider {
+      height: 1px;
+      background: #e6e8f0;
+      margin: 0 -28px;
+    }
+
+    /* ── Badge operación ── */
+    .op-type {
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 14px 0;
+      color: #1b7a3e;
+    }
+    .op-icon { margin-right: 5px; }
+
+    /* ── Filas de datos (sección card) ── */
+    .ticket-rows { padding: 2px 0; }
+    .ticket-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid #f0f1f7;
+    }
+    .ticket-row.no-border { border-bottom: none; }
+    .row-label { font-size: 13px; color: #8a8a9e; font-weight: 400; flex-shrink: 0; }
+    .row-value { font-size: 13px; color: #1a1a2e; font-weight: 600; text-align: right; margin-left: 12px; }
+
+    /* ── Total (tarjeta) ── */
+    .ticket-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0 16px;
+    }
+    .total-label { font-size: 14px; font-weight: 800; color: #1a1a2e; letter-spacing: 0.06em; }
+    .total-amount { display: flex; align-items: baseline; gap: 3px; color: #1a1a2e; }
+    .total-amount .sym { font-size: 24px; font-weight: 700; margin-right: 2px; }
+    .total-amount .num { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+    .total-amount .curr { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; align-self: flex-end; margin-bottom: 2px; margin-left: 2px; }
+
+    /* ────────────────────────────────────────────────── */
+    /* ── NUEVA SECCIÓN PDS (debajo del divider) ──────── */
+    /* ────────────────────────────────────────────────── */
+
+    .pds-section {
+      padding-top: 18px;
+    }
+
+    /* Nombre del servicio */
+    .pds-service-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f0f1f7;
+    }
+
+    /* Filas monto PDS */
+    .pds-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 7px 0;
+      border-bottom: 1px dashed #eee;
+    }
+    .pds-row:last-of-type { border-bottom: none; }
+    .pds-row-label { font-size: 12.5px; color: #8a8a9e; flex-shrink: 0; max-width: 50%; }
+    .pds-row-value { font-size: 12.5px; color: #1a1a2e; font-weight: 600; text-align: right; }
+
+    /* Total PDS */
+    .pds-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      margin-top: 2px;
+      border-top: 1.5px solid #1a1a2e;
+      border-bottom: 1.5px solid #1a1a2e;
+    }
+    .pds-total-label { font-size: 13px; font-weight: 700; color: #1a1a2e; }
+    .pds-total-value { font-size: 13px; font-weight: 700; color: #1a1a2e; }
+
+    /* Fecha/Transacción/Referencia PDS */
+    .pds-meta { margin-top: 12px; }
+    .pds-meta-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+    .pds-meta-label { font-size: 12px; color: #8a8a9e; }
+    .pds-meta-value { font-size: 12px; color: #1a1a2e; font-weight: 600; }
+
+    /* Mensaje auth */
+    .pds-auth-msg {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #1a1a2e;
+      line-height: 1.5;
+      padding: 10px;
+      background: #f8fafc;
+      border-radius: 6px;
+    }
+
+    /* Mensaje operador */
+    .pds-operator-msg {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #555;
+      line-height: 1.55;
+      padding: 10px;
+      background: #f8fafc;
+      border-radius: 6px;
+      text-align: justify;
+    }
+
+    /* Tienda */
+    .pds-tienda {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed #ccc;
+    }
+    .pds-tienda-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+    }
+    .pds-tienda-label { color: #8a8a9e; }
+    .pds-tienda-value { color: #1a1a2e; font-weight: 600; }
+
+    /* Footer legal */
+    .pds-importante {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 11.5px;
+      color: #1a1a2e;
+    }
+    .pds-importante .imp-title { font-weight: 700; }
+    .pds-no-fiscal {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 11px;
+      color: #c82525;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ticket-card">
+
+    <!-- ── Encabezado ── -->
+    <div class="ticket-head">
+      <img src="http://localhost:4200/Pack.png" alt="T-CONECTA" class="brand-logo" />
+      <p class="merchant-name">CR AUTOVEND IM30 1</p>
+      <p class="merchant-sub">Reforma 222 · México 13020</p>
+      <p class="merchant-sub">Ciudad de México</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Badge ── -->
+    <div class="op-type">
+      <span class="op-icon">✓</span> PAGO DE SERVICIO EXITOSO
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Datos transacción (tarjeta) ── -->
+    <div class="ticket-rows">
+      <div class="ticket-row">
+        <span class="row-label">Comercio</span>
+        <span class="row-value">25163 / 1736940219</span>
+      </div>
+      <div class="ticket-row">
+        <span class="row-label">Transacción</span>
+        <span class="row-value">300000001</span>
+      </div>
+      <div class="ticket-row">
+        <span class="row-label">Fecha y hora</span>
+        <span class="row-value">27-08-2026 · 14:22:00</span>
+      </div>
+      <div class="ticket-row">
+        <span class="row-label">Lote</span>
+        <span class="row-value">0</span>
+      </div>
+      <div class="ticket-row">
+        <span class="row-label">RRN</span>
+        <span class="row-value">699901312004</span>
+      </div>
+      <div class="ticket-row no-border">
+        <span class="row-label">Aplicación</span>
+        <span class="row-value">0091 · ICC</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ── Total (cargo a la tarjeta) ── -->
+    <div class="ticket-total">
+      <span class="total-label">TOTAL</span>
+      <div class="total-amount">
+        <span class="sym">$</span>
+        <span class="num">520.00</span>
+        <span class="curr">MXN</span>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- ── DIVISIÓN + SECCIÓN PDS ────────────────── -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="divider"></div>
+
+    <div class="pds-section">
+
+      <!-- Nombre del servicio -->
+      <p class="pds-service-name">Izzi</p>
+
+      <!-- Montos -->
+      <div class="pds-row">
+        <span class="pds-row-label">Monto:</span>
+        <span class="pds-row-value">MXN 400.00</span>
+      </div>
+      <div class="pds-row">
+        <span class="pds-row-label">Comisión:</span>
+        <span class="pds-row-value">MXN 12.00</span>
+      </div>
+      <div class="pds-row">
+        <span class="pds-row-label">C.T.:</span>
+        <span class="pds-row-value">MXN 7.00</span>
+      </div>
+      <div class="pds-row">
+        <span class="pds-row-label">Cobro por uso de plataforma:</span>
+        <span class="pds-row-value">MXN 0.00</span>
+      </div>
+
+      <!-- Total PDS -->
+      <div class="pds-total-row">
+        <span class="pds-total-label">Total:</span>
+        <span class="pds-total-value">MXN 412.00</span>
+      </div>
+
+      <!-- Fecha / Transacción / Referencia -->
+      <div class="pds-meta">
+        <div class="pds-meta-row">
+          <span class="pds-meta-label">Fecha y hora:</span>
+          <span class="pds-meta-value">25-08-2026 17:57:13</span>
+        </div>
+        <div class="pds-meta-row">
+          <span class="pds-meta-label">Transacción:</span>
+          <span class="pds-meta-value">246663</span>
+        </div>
+        <div class="pds-meta-row">
+          <span class="pds-meta-label">Referencia:</span>
+          <span class="pds-meta-value">87654321</span>
+        </div>
+      </div>
+
+      <!-- Auth -->
+      <div class="pds-auth-msg">
+        Pago realizado exitosamente Auth: 763d42da-b06e-4d78-909c-439340d59fa4
+      </div>
+
+      <!-- Mensaje operador -->
+      <div class="pds-operator-msg">
+        SERVICIO OPERADO POR MONATO. FAVOR DE GUARDAR ESTE COMPROBANTE DE PAGO PARA POSIBLES ACLARACIONES.
+        PARA CUALQUIER DUDA LLAME AL 55 9315 8885.
+      </div>
+
+      <!-- Tienda -->
+      <div class="pds-tienda">
+        <div class="pds-tienda-row">
+          <span class="pds-tienda-label">Tienda:</span>
+          <span class="pds-tienda-value">CR AUTOVEND IM30 1</span>
+        </div>
+      </div>
+
+      <!-- IMPORTANTE -->
+      <div class="pds-importante">
+        <p class="imp-title">IMPORTANTE:</p>
+        <p>Conservar este comprobante para futuras aclaraciones</p>
+      </div>
+
+      <!-- No fiscal -->
+      <p class="pds-no-fiscal">ESTE NO ES UN COMPROBANTE FISCAL.</p>
+
+    </div>
+    <!-- /pds-section -->
+
+  </div>
+
+</body>
+</html>
