@@ -80,17 +80,29 @@
     .row-label { font-size: 13px; color: #8a8a9e; font-weight: 400; flex-shrink: 0; }
     .row-value { font-size: 13px; color: #1a1a2e; font-weight: 600; text-align: right; margin-left: 12px; }
 
-    /* ── Filas de resumen (Monto / Comisión) — mismo tamaño ── */
+    /* ── Filas de resumen (Monto / Comisión) ── */
     .summary-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 13px 0;
+      padding: 11px 0;
       border-bottom: 1px solid #f0f1f7;
     }
-    .summary-row.last { border-bottom: none; }
-    .summary-label { font-size: 14px; font-weight: 400; color: #8a8a9e; }
-    .summary-value { font-size: 14px; font-weight: 700; color: #1a1a2e; }
+    .summary-label { font-size: 13px; font-weight: 400; color: #8a8a9e; }
+    .summary-value { font-size: 13px; font-weight: 600; color: #1a1a2e; }
+
+    /* ── Total PDS (grande, igual al original) ── */
+    .pds-total-block {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0 16px;
+    }
+    .pds-total-label { font-size: 14px; font-weight: 800; color: #1a1a2e; letter-spacing: 0.06em; }
+    .pds-total-amount { display: flex; align-items: baseline; gap: 3px; color: #1a1a2e; }
+    .pds-total-amount .sym { font-size: 24px; font-weight: 700; margin-right: 2px; }
+    .pds-total-amount .num { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+    .pds-total-amount .curr { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; align-self: flex-end; margin-bottom: 2px; margin-left: 2px; }
 
     /* ────────────────────────────────────────────────── */
     /* ── NUEVA SECCIÓN PDS (debajo del divider) ──────── */
@@ -258,14 +270,24 @@
       <!-- Nombre del servicio -->
       <p class="pds-service-name">Izzi</p>
 
-      <!-- Monto y Comisión — mismo tamaño -->
+      <!-- Monto y Comisión -->
       <div class="summary-row">
         <span class="summary-label">Monto</span>
-        <span class="summary-value">MXN 412.00</span>
+        <span class="summary-value">MXN 400.00</span>
       </div>
-      <div class="summary-row last">
+      <div class="summary-row">
         <span class="summary-label">Comisión</span>
         <span class="summary-value">MXN 12.00</span>
+      </div>
+
+      <!-- TOTAL grande — debajo de monto y comisión -->
+      <div class="pds-total-block">
+        <span class="pds-total-label">TOTAL</span>
+        <div class="pds-total-amount">
+          <span class="sym">$</span>
+          <span class="num">412.00</span>
+          <span class="curr">MXN</span>
+        </div>
       </div>
 
       <!-- Auth -->
