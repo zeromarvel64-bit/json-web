@@ -80,18 +80,17 @@
     .row-label { font-size: 13px; color: #8a8a9e; font-weight: 400; flex-shrink: 0; }
     .row-value { font-size: 13px; color: #1a1a2e; font-weight: 600; text-align: right; margin-left: 12px; }
 
-    /* ── Total (tarjeta) ── */
-    .ticket-total {
+    /* ── Filas de resumen (Monto / Comisión) — mismo tamaño ── */
+    .summary-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 0 16px;
+      padding: 13px 0;
+      border-bottom: 1px solid #f0f1f7;
     }
-    .total-label { font-size: 14px; font-weight: 800; color: #1a1a2e; letter-spacing: 0.06em; }
-    .total-amount { display: flex; align-items: baseline; gap: 3px; color: #1a1a2e; }
-    .total-amount .sym { font-size: 24px; font-weight: 700; margin-right: 2px; }
-    .total-amount .num { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
-    .total-amount .curr { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; align-self: flex-end; margin-bottom: 2px; margin-left: 2px; }
+    .summary-row.last { border-bottom: none; }
+    .summary-label { font-size: 14px; font-weight: 400; color: #8a8a9e; }
+    .summary-value { font-size: 14px; font-weight: 700; color: #1a1a2e; }
 
     /* ────────────────────────────────────────────────── */
     /* ── NUEVA SECCIÓN PDS (debajo del divider) ──────── */
@@ -229,7 +228,7 @@
       </div>
       <div class="ticket-row">
         <span class="row-label">Transacción</span>
-        <span class="row-value">300000001</span>
+        <span class="row-value">246663</span>
       </div>
       <div class="ticket-row">
         <span class="row-label">Fecha y hora</span>
@@ -249,18 +248,6 @@
       </div>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- ── Total (cargo a la tarjeta) ── -->
-    <div class="ticket-total">
-      <span class="total-label">TOTAL</span>
-      <div class="total-amount">
-        <span class="sym">$</span>
-        <span class="num">520.00</span>
-        <span class="curr">MXN</span>
-      </div>
-    </div>
-
     <!-- ══════════════════════════════════════════════ -->
     <!-- ── DIVISIÓN + SECCIÓN PDS ────────────────── -->
     <!-- ══════════════════════════════════════════════ -->
@@ -271,44 +258,14 @@
       <!-- Nombre del servicio -->
       <p class="pds-service-name">Izzi</p>
 
-      <!-- Montos -->
-      <div class="pds-row">
-        <span class="pds-row-label">Monto:</span>
-        <span class="pds-row-value">MXN 400.00</span>
+      <!-- Monto y Comisión — mismo tamaño -->
+      <div class="summary-row">
+        <span class="summary-label">Monto</span>
+        <span class="summary-value">MXN 412.00</span>
       </div>
-      <div class="pds-row">
-        <span class="pds-row-label">Comisión:</span>
-        <span class="pds-row-value">MXN 12.00</span>
-      </div>
-      <div class="pds-row">
-        <span class="pds-row-label">C.T.:</span>
-        <span class="pds-row-value">MXN 7.00</span>
-      </div>
-      <div class="pds-row">
-        <span class="pds-row-label">Cobro por uso de plataforma:</span>
-        <span class="pds-row-value">MXN 0.00</span>
-      </div>
-
-      <!-- Total PDS -->
-      <div class="pds-total-row">
-        <span class="pds-total-label">Total:</span>
-        <span class="pds-total-value">MXN 412.00</span>
-      </div>
-
-      <!-- Fecha / Transacción / Referencia -->
-      <div class="pds-meta">
-        <div class="pds-meta-row">
-          <span class="pds-meta-label">Fecha y hora:</span>
-          <span class="pds-meta-value">25-08-2026 17:57:13</span>
-        </div>
-        <div class="pds-meta-row">
-          <span class="pds-meta-label">Transacción:</span>
-          <span class="pds-meta-value">246663</span>
-        </div>
-        <div class="pds-meta-row">
-          <span class="pds-meta-label">Referencia:</span>
-          <span class="pds-meta-value">87654321</span>
-        </div>
+      <div class="summary-row last">
+        <span class="summary-label">Comisión</span>
+        <span class="summary-value">MXN 12.00</span>
       </div>
 
       <!-- Auth -->
