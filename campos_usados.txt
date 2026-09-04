@@ -27,7 +27,13 @@ rrn- folio
 cambiar en tickets
 
 
+solo te queria comentar que no se te olvide la funcionalidad, que cuando abran el link por medio de la terminal (código QR) (eso lo trabaja bau de enseñar el qr) de nuestro lado llegará algo como:
+https://qa-portal-tickets-autovend-azure.app/init/i7fkasud78yho34o9374786324h234 o en tu caso que ahora estas en local sería algo así http://localhost:4200/init/i7fkasud78yho34o9374786324h234
+ 
+eso que puse en negritas y color, sería tomarlo y pasarlo al servicio que Galicia nos pasará, supongo que sería un método get, ya cuando Galicia nos pase el servicio lo podemos revisar pero solo era para que no se te olvide considerar esa funcionalidad
+
 -------------------------------------------------------------------
+
  
 solo te queria comentar que no se te olvide la funcionalidad, que cuando abran el link por medio de la terminal (código QR) (eso lo trabaja bau de enseñar el qr) de nuestro lado llegará algo como:
 https://qa-portal-tickets-autovend-azure.app/init/i7fkasud78yho34o9374786324h234 o en tu caso que ahora estas en local sería algo así http://localhost:4200/init/i7fkasud78yho34o9374786324h234
