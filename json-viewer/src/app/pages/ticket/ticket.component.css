@@ -226,9 +226,81 @@
   .page-bg           { padding: 16px 12px 20px; align-items: flex-start; }
   .ticket-card       { border-radius: 14px; padding: 28px 20px 18px; }
   .divider           { margin: 0 -20px; }
+  .divider-dashed    { margin: 6px -20px; }
   .total-amount .num { font-size: 26px; }
   .total-amount .sym { font-size: 20px; }
   .brand-logo        { height: 110px; max-width: 220px; }
+}
+
+/* ── Label TAE (tae.transactionLabel) ───────────────────────────────────── */
+.tae-footer-label {
+  font-size: 11.5px;
+  color: #5a5a6e;
+  line-height: 1.55;
+  padding: 14px 0 4px;
+}
+
+/* ── Sección PDS ─────────────────────────────────────────────────────────── */
+.pds-service-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  padding: 16px 0 4px;
+}
+
+.pds-text-block {
+  padding: 14px 0 10px;
+}
+
+.pds-text1 {
+  font-size: 11.5px;
+  color: #1a1a2e;
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+
+.pds-text2 {
+  font-size: 11px;
+  color: #5a5a6e;
+  line-height: 1.6;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.divider-dashed {
+  height: 1px;
+  border-top: 1px dashed #c8cad8;
+  margin: 6px -28px;
+}
+
+.pds-tienda-row {
+  padding: 12px 0 4px;
+}
+
+.pds-importante {
+  text-align: center;
+  padding: 10px 0 12px;
+}
+
+.importante-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.importante-sub {
+  font-size: 11.5px;
+  color: #5a5a6e;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.fiscal-disclaimer {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #c82525;
+  letter-spacing: 0.01em;
 }
 
 /* ── Estilos de impresión (Descargar PDF) ────────────────────────────────── */

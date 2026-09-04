@@ -51,6 +51,21 @@ export class TicketComponent implements OnInit {
     return this.ticket.total < 0 ? `-${abs}` : abs;
   }
 
+  /** Monto PDS formateado (pds.amount) */
+  get pdsMontoFormatted(): string {
+    return (this.ticket?.pdsMonto ?? 0).toFixed(2);
+  }
+
+  /** Comisión PDS formateada (pds.flatFee) */
+  get pdsComisionFormatted(): string {
+    return (this.ticket?.pdsComision ?? 0).toFixed(2);
+  }
+
+  /** Total PDS formateado (pds.amount + pds.flatFee) */
+  get pdsTotalFormatted(): string {
+    return (this.ticket?.pdsTotal ?? 0).toFixed(2);
+  }
+
   downloadPdf(): void {
     window.print();
   }

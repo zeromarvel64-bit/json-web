@@ -16,96 +16,90 @@ export class TicketService {
   getData(scenario: string): Observable<TicketData> {
     const scenarios: Record<string, TicketData> = {
 
-      // ── Escenario 1: TAE Exitosa ─────────────────────────────────────────
-      // src: scenario1_tae_exitosa.json
-      // transaction: folio=699901312001, date=27/08/2026, time=10:15:30,
-      //              businessId=25163, customBusinessId=1736940219, iccAtc=0045, st_qps=0
-      // tae:         requestId=200000001, mobileNumber=5512345678, label=Recarga móvil TELCEL
+      // ── Escenario 1: TAE Exitosa  (src: scenario1_tae_exitosa.json) ────────
       tae_exitosa: {
-        merchantName:    'CR AUTOVEND IM30 1',
-        merchantAddress: 'Reforma 222 · México 13020',
-        merchantCity:    'Ciudad de México',
-        operationType:   'RECARGA TAE EXITOSA',
-        operationClass:  'success',
-        comercio:        '25163 / 1736940219',
-        transaccion:     '200000001',
-        fechaHora:       '27-08-2026 · 10:15:30',
-        lote:            '0',
-        rrn:             '699901312001',
-        aplicacion:      '0045 · ICC',
-        total:           150.00,
-        currency:        'MXN',
-        footerLine1:     'Firma no requerida.',
-        footerLine2:     'Recarga móvil TELCEL · Cel: 5512345678'
+        companyName:     'BLM QA',                                           // transaction.companyName
+        merchantAddress: 'CORREGIDORA 92 COL. MIGUEL HIDALGO 1A SECCION',   // transaction.address (antes de la coma)
+        merchantCity:    'CIUDAD DE MEX',                                     // transaction.address (después de la coma)
+        operationType:   'RECARGA TAE EXITOSA',                              // derivado del escenario
+        operationClass:  'success',                                           // derivado del escenario
+        merchantName:    '0232321 1736940219',                               // transaction.merchantName
+        transaccion:     '10001',                                             // tae.requestId
+        fechaHora:       '27-08-2026 · 10:15:30',                           // transaction.date + transaction.time
+        lote:            '0',                                                 // no existe en JSON → placeholder
+        rrn:             '699901312001',                                      // transaction.folio
+        aplicacion:      '0045 · ICC',                                       // transaction.iccAtc + paymentType "C"→"ICC"
+        total:           150.00,                                              // transaction.amount
+        currency:        'MXN',                                               // tae.currency
+        footerLine1:     'Firma no requerida.',                              // (estático digital)
+        footerLine2:     'Atención a clientes: Llama al 800 123 2020 desde mi Telcel.' // tae.transactionLabel
       },
 
-      // ── Escenario 2: TAE No Exitosa ──────────────────────────────────────
-      // src: scenario2_tae_no_exitosa.json
-      // cancellation: folio=699901312003, date=27/08/2026, time=11:31:20, st_qps=""
-      // transaction:  iccAtc=0062
-      // tae:          requestId=200000002, mobileNumber=5598765432, label=Recarga móvil MOVISTAR
+      // ── Escenario 2: TAE No Exitosa  (src: scenario2_tae_no_exitosa.json) ─
       tae_no_exitosa: {
-        merchantName:    'CR AUTOVEND IM30 1',
-        merchantAddress: 'Reforma 222 · México 13020',
-        merchantCity:    'Ciudad de México',
-        operationType:   'CANCELACIÓN TAE',
-        operationClass:  'cancelled',
-        comercio:        '25163 / 1736940219',
-        transaccion:     '200000002',
-        fechaHora:       '27-08-2026 · 11:31:20',
-        lote:            '–',
-        rrn:             '699901312003',
-        aplicacion:      '0062 · ICC',
-        total:           -150.00,
-        currency:        'MXN',
-        footerLine1:     'Firma no requerida.',
-        footerLine2:     'Recarga móvil MOVISTAR · Cel: 5598765432'
+        companyName:     'BLM QA',                                           // cancellation.companyName
+        merchantAddress: 'CORREGIDORA 92 COL. MIGUEL HIDALGO 1A SECCION',   // cancellation.address (antes de la coma)
+        merchantCity:    'CIUDAD DE MEX',                                     // cancellation.address (después de la coma)
+        operationType:   'CANCELACIÓN TAE',                                  // derivado del escenario
+        operationClass:  'cancelled',                                         // derivado del escenario
+        merchantName:    '0232321 1736940219',                               // cancellation.merchantName
+        transaccion:     '10002',                                             // tae.requestId
+        fechaHora:       '27-08-2026 · 11:31:20',                           // cancellation.date + cancellation.time
+        lote:            '–',                                                 // no existe en JSON → placeholder
+        rrn:             '699901312003',                                      // cancellation.folio
+        aplicacion:      '0062 · ICC',                                       // transaction.iccAtc + paymentType "C"→"ICC"
+        total:           -150.00,                                             // cancellation.amount
+        currency:        'MXN',                                               // tae.currency
+        footerLine1:     'Firma no requerida.',                              // (estático digital)
+        footerLine2:     ''                                                   // tae.transactionLabel = "" (vacío en fallo)
       },
 
-      // ── Escenario 3: PDS Exitoso ─────────────────────────────────────────
-      // src: scenario3_pds_exitoso.json
-      // transaction: folio=699901312004, date=27/08/2026, time=14:22:00,
-      //              businessId=25163, customBusinessId=1736940219, iccAtc=0091, st_qps=0
-      // pds:         requestId=300000001, accountNumber=1234567890, ticketText=PAGO EXITOSO
+      // ── Escenario 3: PDS Exitoso  (src: scenario3_pds_exitoso.json) ────────
       pds_exitoso: {
-        merchantName:    'CR AUTOVEND IM30 1',
-        merchantAddress: 'Reforma 222 · México 13020',
-        merchantCity:    'Ciudad de México',
-        operationType:   'PAGO DE SERVICIO EXITOSO',
-        operationClass:  'success',
-        comercio:        '25163 / 1736940219',
-        transaccion:     '300000001',
-        fechaHora:       '27-08-2026 · 14:22:00',
-        lote:            '0',
-        rrn:             '699901312004',
-        aplicacion:      '0091 · ICC',
-        total:           520.00,
-        currency:        'MXN',
-        footerLine1:     'Firma no requerida.',
-        footerLine2:     'Conserve este comprobante de pago.'
+        companyName:     'BLM QA',                                           // transaction.companyName
+        merchantAddress: 'CORREGIDORA 92 COL. MIGUEL HIDALGO 1A SECCION',   // transaction.address (antes de la coma)
+        merchantCity:    'CIUDAD DE MEX',                                     // transaction.address (después de la coma)
+        operationType:   'PAGO DE SERVICIO EXITOSO',                         // derivado del escenario
+        operationClass:  'success',                                           // derivado del escenario
+        merchantName:    '0232321 1736940219',                               // transaction.merchantName
+        transaccion:     '246001',                                            // pds.requestId
+        fechaHora:       '27-08-2026 · 14:22:00',                           // transaction.date + transaction.time
+        lote:            '0',                                                 // no existe en JSON → placeholder
+        rrn:             '699901312004',                                      // transaction.folio
+        aplicacion:      '0091 · ICC',                                       // transaction.iccAtc + paymentType "C"→"ICC"
+        total:           520.00,                                              // pds.amount
+        currency:        'MXN',                                               // pds.currency
+        footerLine1:     '',
+        footerLine2:     '',
+        // ── Sección PDS ────────────────────────────────────────────────────
+        hasPds:          true,
+        pdsServiceName:  'Izzi',                                             // sin campo en JSON → hardcodeado
+        pdsMonto:        520.0,                                              // pds.amount
+        pdsComision:     12.0,                                               // pds.flatFee
+        pdsTotal:        532.0,                                              // pds.amount + pds.flatFee = 520 + 12
+        pdsCurrency:     'MXN',                                              // pds.currency
+        pdsTicketText1:  'Pago realizado exitosamente Auth: 23940fd5-c835-49ed-b221-f4e594acd003', // pds.ticketText1
+        pdsTicketText2:  'SERVICIO OPERADO POR MONATO. FAVOR DE GUARDAR ESTE COMPROBANTE DE PAGO PARA POSIBLES ACLARACIONES. PARA CUALQUIER DUDA LLAME AL 55 9315 8885.', // pds.ticketText2
+        tienda:          'BLM QA'                                            // transaction.companyName
       },
 
-      // ── Escenario 4: PDS No Exitoso ──────────────────────────────────────
-      // src: scenario4_pds_no_exitoso.json
-      // cancellation: folio=699901312006, date=27/08/2026, time=16:05:48, st_qps=""
-      // transaction:  iccAtc=0114
-      // pds:          requestId=300000002, accountNumber=5551234567, ticketText=PAGO NO EXITOSO
+      // ── Escenario 4: PDS No Exitoso  (src: scenario4_pds_no_exitoso.json) ──
       pds_no_exitoso: {
-        merchantName:    'CR AUTOVEND IM30 1',
-        merchantAddress: 'Reforma 222 · México 13020',
-        merchantCity:    'Ciudad de México',
-        operationType:   'CANCELACIÓN PDS',
-        operationClass:  'cancelled',
-        comercio:        '25163 / 1736940219',
-        transaccion:     '300000002',
-        fechaHora:       '27-08-2026 · 16:05:48',
-        lote:            '–',
-        rrn:             '699901312006',
-        aplicacion:      '0114 · ICC',
-        total:           -380.00,
-        currency:        'MXN',
-        footerLine1:     'Contacte a su proveedor de servicios.',
-        footerLine2:     'Conserve este comprobante para cualquier aclaración.'
+        companyName:     'BLM QA',                                           // cancellation.companyName
+        merchantAddress: 'CORREGIDORA 92 COL. MIGUEL HIDALGO 1A SECCION',   // cancellation.address (antes de la coma)
+        merchantCity:    'CIUDAD DE MEX',                                     // cancellation.address (después de la coma)
+        operationType:   'CANCELACIÓN PDS',                                  // derivado del escenario
+        operationClass:  'cancelled',                                         // derivado del escenario
+        merchantName:    '0232321 1736940219',                               // cancellation.merchantName
+        transaccion:     '246002',                                            // pds.requestId
+        fechaHora:       '27-08-2026 · 16:05:48',                           // cancellation.date + cancellation.time
+        lote:            '–',                                                 // no existe en JSON → placeholder
+        rrn:             '699901312006',                                      // cancellation.folio
+        aplicacion:      '0114 · ICC',                                       // transaction.iccAtc + paymentType "C"→"ICC"
+        total:           -380.00,                                             // cancellation.amount
+        currency:        'MXN',                                               // pds.currency
+        footerLine1:     'Pago no realizado. Error en transacción.',         // pds.ticketText1
+        footerLine2:     'SERVICIO OPERADO POR MONATO. FAVOR DE GUARDAR ESTE COMPROBANTE DE PAGO PARA POSIBLES ACLARACIONES. PARA CUALQUIER DUDA LLAME AL 55 9315 8885.' // pds.ticketText2
       }
     };
 

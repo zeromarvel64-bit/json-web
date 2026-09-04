@@ -23,7 +23,7 @@
         </div>
 
         <!-- Datos del comercio -->
-        <p class="merchant-name">{{ ticket.merchantName }}</p>
+        <p class="merchant-name">{{ ticket.companyName }}</p>
         <p class="merchant-sub">{{ ticket.merchantAddress }}</p>
         <p class="merchant-sub">{{ ticket.merchantCity }}</p>
       </div>
@@ -45,7 +45,7 @@
 
         <div class="ticket-row">
           <span class="row-label">Comercio</span>
-          <span class="row-value">{{ ticket.comercio }}</span>
+          <span class="row-value">{{ ticket.merchantName }}</span>
         </div>
 
         <div class="ticket-row">
@@ -78,21 +78,88 @@
       <!-- Separador -->
       <div class="divider"></div>
 
-      <!-- Total -->
-      <div class="ticket-total">
-        <span class="total-label">TOTAL</span>
-        <div class="total-amount" [class.negative]="ticket.total < 0">
-          <span class="sym">$</span>
-          <span class="num">{{ totalFormatted }}</span>
-          <span class="curr">{{ ticket.currency }}</span>
+      <!-- ── Sección PDS (pds_exitoso / pds_no_exitoso) ─────────── -->
+      <ng-container *ngIf="ticket.hasPds">
+
+        <!-- Nombre del servicio -->
+        <div class="pds-service-header">{{ ticket.pdsServiceName }}</div>
+
+        <!-- Monto y Comisión -->
+        <div class="ticket-rows">
+          <div class="ticket-row">
+            <span class="row-label">Monto</span>
+            <span class="row-value">{{ ticket.pdsCurrency }} {{ pdsMontoFormatted }}</span>
+          </div>
+          <div class="ticket-row no-border">
+            <span class="row-label">Comisión</span>
+            <span class="row-value">{{ ticket.pdsCurrency }} {{ pdsComisionFormatted }}</span>
+          </div>
         </div>
-      </div>
 
-      <!-- Separador -->
-      <div class="divider"></div>
+        <!-- Separador -->
+        <div class="divider"></div>
 
-      <!-- Pie del ticket — espacio en blanco reservado -->
-      <div class="ticket-footer"></div>
+        <!-- Total PDS -->
+        <div class="ticket-total">
+          <span class="total-label">TOTAL</span>
+          <div class="total-amount">
+            <span class="sym">$</span>
+            <span class="num">{{ pdsTotalFormatted }}</span>
+            <span class="curr">{{ ticket.pdsCurrency }}</span>
+          </div>
+        </div>
+
+        <!-- Separador -->
+        <div class="divider"></div>
+
+        <!-- Textos del ticket PDS -->
+        <div class="pds-text-block">
+          <p class="pds-text1">{{ ticket.pdsTicketText1 }}</p>
+          <p class="pds-text2">{{ ticket.pdsTicketText2 }}</p>
+        </div>
+
+        <!-- Separador dashed -->
+        <div class="divider-dashed"></div>
+
+        <!-- Tienda -->
+        <div class="ticket-row no-border pds-tienda-row">
+          <span class="row-label">Tienda:</span>
+          <span class="row-value">{{ ticket.tienda }}</span>
+        </div>
+
+        <!-- IMPORTANTE -->
+        <div class="pds-importante">
+          <p class="importante-label">IMPORTANTE:</p>
+          <p class="importante-sub">Conservar este comprobante para futuras aclaraciones</p>
+          <p class="fiscal-disclaimer">ESTE NO ES UN COMPROBANTE FISCAL.</p>
+        </div>
+
+      </ng-container>
+
+      <!-- ── Total normal (TAE / sin PDS) ──────────────────────────── -->
+      <ng-container *ngIf="!ticket.hasPds">
+
+        <div class="ticket-total">
+          <span class="total-label">TOTAL</span>
+          <div class="total-amount" [class.negative]="ticket.total < 0">
+            <span class="sym">$</span>
+            <span class="num">{{ totalFormatted }}</span>
+            <span class="curr">{{ ticket.currency }}</span>
+          </div>
+        </div>
+
+        <!-- Separador -->
+        <div class="divider"></div>
+
+        <!-- Label TAE (tae.transactionLabel) -->
+        <div class="tae-footer-label" *ngIf="ticket.footerLine2">
+          {{ ticket.footerLine2 }}
+        </div>
+
+        <!-- Pie del ticket -->
+        <div class="ticket-footer"></div>
+
+      </ng-container>
 
     </div>
     <!-- /ticket-card -->
