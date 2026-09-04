@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { TicketComponent } from './pages/ticket/ticket.component';
 
 const routes: Routes = [
+  // ── Ruta real: token del QR → servicio de Galicia ──────────────────────────
+  { path: 'init/:token',              component: TicketComponent },
+
+  // ── Rutas de prueba: escenarios hardcodeados ─────────────────────────────
   { path: 'escenario_tae_exitosa',    component: TicketComponent, data: { scenario: 'tae_exitosa' } },
   { path: 'escenario_tae_no_exitosa', component: TicketComponent, data: { scenario: 'tae_no_exitosa' } },
   { path: 'escenario_pds_exitoso',    component: TicketComponent, data: { scenario: 'pds_exitoso' } },

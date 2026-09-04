@@ -9,14 +9,28 @@ import { QpayResponse } from '../interfaces/json-payload';
 })
 export class JsonDataService {
 
-  // URL base de la API real — activar cuando el equipo confirme el endpoint
+  // URL base de la API de QA (referencia interna)
   private apiUrl = 'https://azappqa.t-conecta.app/service/api/v1/v/ticket/1';
+
+  // ⚠️ URL del servicio Autovend — pendiente de confirmación
+  // TODO: reemplazar con la URL real cuando el equipo la provea
+  private autovendApiUrl = 'https://PENDIENTE.t-conecta.app/init';
 
   constructor(private http: HttpClient) {}
 
   /**
+   * Obtiene datos usando el token del path /init/:token → servicio de Galicia.
+   * ⚠️ URL pendiente — ajustar endpoint y parámetros cuando Galicia los confirme.
+   */
+  getDataByToken(token: string): Observable<QpayResponse> {
+    const url = `${this.autovendApiUrl}/${token}`;
+    return this.http.get<QpayResponse>(url).pipe(
+      catchError(() => throwError(() => new Error('Error al conectar con el servicio')))
+    );
+  }
+
+  /**
    * Obtiene datos desde la API real usando el parámetro ?ri= de la URL.
-   * Activar en json-view.component.ts cambiando getData → getDataFromApi
    */
   getDataFromApi(ri: string): Observable<QpayResponse> {
     const params = new HttpParams().set('ri', ri);

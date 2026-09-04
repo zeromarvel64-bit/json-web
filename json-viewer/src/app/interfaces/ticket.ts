@@ -9,12 +9,12 @@ export interface TicketData {
   operationClass: 'success' | 'pending' | 'cancelled';
 
   // Campos del recibo
-  merchantName: string;  // transaction.merchantName  ("0232321 1736940219")
-  transaccion: string;
-  fechaHora:  string;
-  lote:       string;
-  rrn:        string;
-  aplicacion: string;
+  merchantName:  string;   // transaction.merchantName  ("0232321 1736940219")
+  autorizacion:  string;   // transaction.auth / cancellation.auth
+  fechaHora:     string;
+  lote:          string;
+  folio:         string;   // transaction.folio / cancellation.folio
+  aplicacion:    string;
 
   // Totales
   total:    number;

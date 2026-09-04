@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TicketService } from '../../services/ticket.service';
+import { JsonDataService } from '../../services/json-data.service';
 import { TicketData } from '../../interfaces/ticket';
 
 @Component({
@@ -17,23 +18,39 @@ export class TicketComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private ticketService: TicketService
+    private ticketService: TicketService,
+    private jsonDataService: JsonDataService
   ) {}
 
   ngOnInit(): void {
-    // Lee el escenario desde los datos de la ruta (definidos en app-routing)
-    const scenario: string = this.route.snapshot.data['scenario'] ?? 'tae_exitosa';
+    const token = this.route.snapshot.paramMap.get('token');
 
-    this.ticketService.getData(scenario).subscribe({
-      next: (data) => {
-        this.ticket = data;
-        this.loading = false;
-      },
-      error: () => {
-        this.error = 'No se pudo cargar el ticket.';
-        this.loading = false;
-      }
-    });
+    if (token) {
+      // ── Ruta real: /init/:token → llama al servicio de Galicia ──────────
+      this.jsonDataService.getDataByToken(token).subscribe({
+        next: (response) => {
+          this.ticket = this.ticketService.mapQpayToTicket(response);
+          this.loading = false;
+        },
+        error: () => {
+          this.error = 'No se pudo cargar el ticket.';
+          this.loading = false;
+        }
+      });
+    } else {
+      // ── Ruta de prueba: /escenario_* → datos hardcodeados ────────────────
+      const scenario: string = this.route.snapshot.data['scenario'] ?? 'tae_exitosa';
+      this.ticketService.getData(scenario).subscribe({
+        next: (data) => {
+          this.ticket = data;
+          this.loading = false;
+        },
+        error: () => {
+          this.error = 'No se pudo cargar el ticket.';
+          this.loading = false;
+        }
+      });
+    }
   }
 
   /** Icono dinámico según el estado de la operación */
