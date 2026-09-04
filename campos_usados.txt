@@ -20,6 +20,13 @@
 
 
 
+su recarga no pudo ser completada se cancelo su transaccion
+
+transacion - autorizacion
+rrn- folio
+cambiar en tickets
+
+
 
 --------------------------------------------------------------------
 hola que tal, buen día
