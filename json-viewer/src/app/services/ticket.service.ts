@@ -100,6 +100,56 @@ export class TicketService {
         currency:        'MXN',                                               // pds.currency
         footerLine1:     'Pago no realizado. Error en transacción.',         // pds.ticketText1
         footerLine2:     'SERVICIO OPERADO POR MONATO. FAVOR DE GUARDAR ESTE COMPROBANTE DE PAGO PARA POSIBLES ACLARACIONES. PARA CUALQUIER DUDA LLAME AL 55 9315 8885.' // pds.ticketText2
+      },
+
+      // ── Escenario 5: TAE En Proceso  (src: scenario5_tae_en_proceso.json) ────
+      // Identificado por transaction.reference con prefijo "tae-"
+      tae_en_proceso: {
+        companyName:     'BLM QA',                                           // transaction.companyName
+        merchantAddress: 'CORREGIDORA 92 COL. MIGUEL HIDALGO 1A SECCION',   // transaction.address (antes de la coma)
+        merchantCity:    'CIUDAD DE MEX',                                     // transaction.address (después de la coma)
+        operationType:   'TAE EN PROCESO',                                   // derivado del escenario
+        operationClass:  'pending',                                           // derivado del escenario
+        merchantName:    '0232321 1736940219',                               // transaction.merchantName
+        transaccion:     '10003',                                             // tae.requestId
+        fechaHora:       '27-08-2026 · 09:22:11',                           // transaction.date + transaction.time
+        lote:            '0',                                                 // no existe en JSON → placeholder
+        rrn:             '699901312008',                                      // cancellation.folio
+        aplicacion:      '0078 · ICC',                                       // transaction.iccAtc + paymentType "C"→"ICC"
+        total:           150.00,                                              // transaction.amount
+        currency:        'MXN',                                               // tae.currency
+        footerLine1:     'Firma no requerida.',
+        footerLine2:     'Atención a clientes: Llama al 800 123 2020 desde mi Telcel.' // tae.transactionLabel
+      },
+
+      // ── Escenario 6: PDS En Proceso  (src: scenario6_pds_en_proceso.json) ───
+      // Identificado por transaction.reference con prefijo "PS-"
+      pds_en_proceso: {
+        companyName:     'BLM QA',                                           // transaction.companyName
+        merchantAddress: 'CORREGIDORA 92 COL. MIGUEL HIDALGO 1A SECCION',   // transaction.address (antes de la coma)
+        merchantCity:    'CIUDAD DE MEX',                                     // transaction.address (después de la coma)
+        operationType:   'PAGO DE SERVICIO EN PROCESO',                      // derivado del escenario
+        operationClass:  'pending',                                           // derivado del escenario
+        merchantName:    '0232321 1736940219',                               // transaction.merchantName
+        transaccion:     '246003',                                            // pds.requestId
+        fechaHora:       '27-08-2026 · 14:23:10',                           // transaction.date + transaction.time
+        lote:            '0',                                                 // no existe en JSON → placeholder
+        rrn:             '699901312010',                                      // cancellation.folio
+        aplicacion:      '0092 · ICC',                                       // transaction.iccAtc + paymentType "C"→"ICC"
+        total:           520.00,                                              // pds.amount
+        currency:        'MXN',                                               // pds.currency
+        footerLine1:     '',
+        footerLine2:     '',
+        // ── Sección PDS ────────────────────────────────────────────────────
+        hasPds:          true,
+        pdsServiceName:  'Izzi',                                             // sin campo en JSON → hardcodeado
+        pdsMonto:        520.0,                                              // pds.amount
+        pdsComision:     12.0,                                               // pds.flatFee
+        pdsTotal:        532.0,                                              // pds.amount + pds.flatFee = 520 + 12
+        pdsCurrency:     'MXN',                                              // pds.currency
+        pdsTicketText1:  'Pago en proceso. En espera de confirmación.',      // pds.ticketText1
+        pdsTicketText2:  'SERVICIO OPERADO POR MONATO. FAVOR DE GUARDAR ESTE COMPROBANTE DE PAGO PARA POSIBLES ACLARACIONES. PARA CUALQUIER DUDA LLAME AL 55 9315 8885.', // pds.ticketText2
+        tienda:          'BLM QA'                                            // transaction.companyName
       }
     };
 

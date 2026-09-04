@@ -7,6 +7,8 @@ const routes: Routes = [
   { path: 'escenario_tae_no_exitosa', component: TicketComponent, data: { scenario: 'tae_no_exitosa' } },
   { path: 'escenario_pds_exitoso',    component: TicketComponent, data: { scenario: 'pds_exitoso' } },
   { path: 'escenario_pds_no_exitoso', component: TicketComponent, data: { scenario: 'pds_no_exitoso' } },
+  { path: 'escenario_tae_en_proceso', component: TicketComponent, data: { scenario: 'tae_en_proceso' } },
+  { path: 'escenario_pds_en_proceso', component: TicketComponent, data: { scenario: 'pds_en_proceso' } },
   { path: '', redirectTo: 'escenario_tae_exitosa', pathMatch: 'full' },
   { path: '**', redirectTo: 'escenario_tae_exitosa' }
 ];
